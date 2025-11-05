@@ -1,0 +1,5 @@
+{
+  "name": "Game.External",
+  "references": [ "Game.Core", "Unity.InputSystem" , "Google.Play.Games"],
+  "autoReferenced": false
+}

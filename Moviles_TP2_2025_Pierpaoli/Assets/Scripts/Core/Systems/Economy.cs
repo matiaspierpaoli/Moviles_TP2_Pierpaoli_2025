@@ -1,0 +1,12 @@
+using Game.Core.Data;
+
+namespace Game.Core.Systems
+{
+    public class Economy
+    {
+        readonly AppModel model; readonly EconomyConfig cfg;
+        public Economy(AppModel m, EconomyConfig c){ model=m; cfg=c; }
+        public void GiveLevelReward(){ model.coins += cfg.rewardPerLevel; SaveSystem.Save(model); }
+        public bool TryBuy(int price){ if (model.coins < price) return false; model.coins -= price; SaveSystem.Save(model); return true; }
+    }
+}

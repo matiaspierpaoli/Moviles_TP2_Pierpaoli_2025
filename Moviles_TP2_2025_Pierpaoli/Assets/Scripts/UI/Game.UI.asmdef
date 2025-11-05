@@ -1,0 +1,4 @@
+
+{ "name":"Game.UI", 
+  "references": ["Game.Core", "Game.External"],
+  "autoReferenced": false }
