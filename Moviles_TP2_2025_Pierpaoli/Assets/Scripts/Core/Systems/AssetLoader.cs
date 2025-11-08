@@ -19,8 +19,8 @@ namespace Game.Core.Systems
             Resources.UnloadUnusedAssets();
         }
 
-        public static DifficultyCurve LoadDifficultyCurve() =>
-            Resources.Load<DifficultyCurve>("Difficulty/DifficultyCurve");
+        public static LevelParameters LoadDifficultyCurve() =>
+            Resources.Load<LevelParameters>("Difficulty/DifficultyCurve");
 
         public static EconomyConfig LoadEconomy() => Resources.Load<EconomyConfig>("Economy/EconomyConfig");
     }

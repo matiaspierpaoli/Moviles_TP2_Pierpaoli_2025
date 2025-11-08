@@ -7,8 +7,8 @@ namespace Game.Core.Data
     {
         public int id = 1;
         public int sessionSeconds = 240; // 4 min
-        public float gravityBase = 9.8f;
-        public float friction = 0.2f;
+        public LevelParameters parameters;
+
         public TextAsset layoutJson;
     }
 }

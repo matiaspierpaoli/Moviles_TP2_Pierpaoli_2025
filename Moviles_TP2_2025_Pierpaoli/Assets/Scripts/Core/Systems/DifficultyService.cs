@@ -4,15 +4,13 @@ namespace Game.Core.Systems
 {
     public class DifficultyService
     {
-        readonly DifficultyCurve curve;
+        readonly LevelParameters props;
 
-        public DifficultyService(DifficultyCurve c)
+        public DifficultyService(LevelParameters p)
         {
-            curve = c;
+            props = p;
         }
-
-        public float TiltMax(float n01) => curve.TiltMax(n01);
-        public int HoleCount(float n01) => curve.HoleCount(n01);
-        public float RotFriction(float n01) => curve.RotFriction(n01);
+        public int HoleCount() => props.holeCount;
+        public float RotFriction() => props.ballFriction;
     }
 }

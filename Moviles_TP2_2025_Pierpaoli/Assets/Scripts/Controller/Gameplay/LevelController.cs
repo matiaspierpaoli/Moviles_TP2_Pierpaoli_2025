@@ -29,8 +29,7 @@ namespace Game.Controller.Gameplay
         public void Tick(float n01)
         {
             var tilt = input.ReadTilt();
-            var max = diff.TiltMax(n01);
-            view.SetBoardTilt(tilt, max);
+            view.SetBoardTilt(tilt);
         }
 
         public void OnHit()

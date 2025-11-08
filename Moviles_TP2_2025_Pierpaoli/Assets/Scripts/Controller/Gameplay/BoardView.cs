@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Game.Controller.Gameplay
@@ -6,14 +7,31 @@ namespace Game.Controller.Gameplay
     {
         public Transform board;
         public Transform ball;
+        [Header("Pitch degrees")]
+        public float maxPitchDownDeg = 30f;
+        public float maxPitchUpDeg   = 15f;
 
-        public void SetBoardTilt(Vector2 tilt, float maxDeg)
+        [Header("Roll degrees")]
+        public float maxRollDeg = 20f;
+
+        private void Start()
         {
-            float ax = Mathf.Asin(Mathf.Clamp(tilt.x, -1f, 1f)) * Mathf.Rad2Deg;
-            float ay = Mathf.Asin(Mathf.Clamp(tilt.y, -1f, 1f)) * Mathf.Rad2Deg;
+            ball.GetComponent<Rigidbody>().maxAngularVelocity = 50f;
+        }
 
-            float rx = Mathf.Clamp(ay, -maxDeg, maxDeg);   // pitch
-            float rz = Mathf.Clamp(-ax, -maxDeg, maxDeg);  // roll
+        public void SetBoardTilt(Vector2 tilt)
+        {
+            float pitch; 
+            if (tilt.y > 0)
+                pitch = -tilt.y * maxPitchDownDeg;
+            else
+                pitch = -tilt.y * maxPitchUpDeg;
+            
+            float roll = -tilt.x * maxRollDeg;
+
+            float rx = (roll - pitch);
+            float rz = (roll + pitch);
+
             board.localRotation = Quaternion.Euler(rx, 0f, rz);
         }
     }
