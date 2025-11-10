@@ -7,8 +7,7 @@ namespace Game.Controller
         public override void Enter()
         {
             base.Enter();
-            app.google.Init();
-            app.logs.Send("Boot", "", "Info");
+            //app.logs.Send("Boot", "", "Info");
             app.Go<MainMenuState>();
         }
     }

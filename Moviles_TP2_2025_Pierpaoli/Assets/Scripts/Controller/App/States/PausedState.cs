@@ -1,4 +1,7 @@
-namespace Game.Core.GameplayModel
+using Game.Core.GameplayModel;
+using Game.Controller.Gameplay;
+
+namespace Game.Controller
 {
     public class PausedState : BaseGameplaySubstate
     {

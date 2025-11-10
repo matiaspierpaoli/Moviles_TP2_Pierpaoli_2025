@@ -16,7 +16,11 @@ namespace Game.Controller
         {
             app.Swap(null, view);
         }
-
+    
+        public virtual void Tick()
+        {
+            
+        }
         public virtual void Exit()
         {
             view?.Hide();

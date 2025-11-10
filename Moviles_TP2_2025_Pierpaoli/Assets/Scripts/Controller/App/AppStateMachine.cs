@@ -6,6 +6,7 @@ namespace Game.Controller
     public interface IAppState
     {
         void Enter();
+        void Tick();
         void Exit();
     }
 
@@ -28,6 +29,11 @@ namespace Game.Controller
             cur?.Exit();
             cur = nxt;
             cur.Enter();
+        }
+        
+        public void Tick()
+        {
+            cur?.Tick();
         }
     }
 }

@@ -1,4 +1,6 @@
-namespace Game.Core.GameplayModel
+using Game.Core.GameplayModel;
+
+namespace Game.Controller.Gameplay
 {
     public abstract class BaseGameplaySubstate
     {
