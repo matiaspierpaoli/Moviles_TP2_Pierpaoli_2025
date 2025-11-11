@@ -6,6 +6,7 @@ namespace Game.Core.Data
     public class EconomyConfig : ScriptableObject
     {
         public int rewardPerLevel = 25;
+        public int rewardPerCoin = 1;
         public int itemPrice = 50;
     }
 }

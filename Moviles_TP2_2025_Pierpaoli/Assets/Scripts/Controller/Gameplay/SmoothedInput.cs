@@ -3,7 +3,7 @@ using Game.Core.ServicesCore;
 
 namespace Game.Controller.Gameplay
 {
-    class SmoothedInput : IInputStrategy
+    public class SmoothedInput : IInputStrategy
     {
         readonly IInputStrategy src; 
         readonly float k; 

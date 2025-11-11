@@ -7,6 +7,8 @@ namespace Game.Controller.Gameplay
     {
         public Transform board;
         public Transform ball;
+        public Transform ballInitialTransform;
+        public Transform mazeInitialTransform;
         [Header("Pitch degrees")]
         public float maxPitchDownDeg = 30f;
         public float maxPitchUpDeg   = 15f;
@@ -17,6 +19,11 @@ namespace Game.Controller.Gameplay
         private void Start()
         {
             ball.GetComponent<Rigidbody>().maxAngularVelocity = 50f;
+            ball.transform.position = ballInitialTransform.position;
+            ball.transform.rotation = ballInitialTransform.rotation;
+
+            board.position = mazeInitialTransform.position;
+            board.rotation = mazeInitialTransform.rotation;
         }
 
         public void SetBoardTilt(Vector2 tilt)

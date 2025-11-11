@@ -3,7 +3,7 @@ using Game.Core.ServicesCore;
 
 namespace Game.Controller.Gameplay
 {
-    class CalibratedInput : IInputStrategy
+    public class CalibratedInput : IInputStrategy
     {
         readonly IInputStrategy src;
         Vector2 neutral;
@@ -16,10 +16,14 @@ namespace Game.Controller.Gameplay
         }
 
         public void CalibrateToTarget()
-        { bias = src.ReadRawTilt() - neutral; }
+        {
+            bias = src.ReadRawTilt() - neutral;
+        }
 
         public void CalibrateToCurrent()
-        { bias = src.ReadRawTilt(); }
+        {
+            bias = src.ReadRawTilt();
+        }
     
         public void SetNeutral(Vector2 newNeutral)
         {

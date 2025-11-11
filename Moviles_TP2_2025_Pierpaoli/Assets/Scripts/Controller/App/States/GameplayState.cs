@@ -17,14 +17,27 @@ namespace Game.Controller
 
         GameObject currentBoardInstance;
 
+        private GameplayView gameplayUI;
+        private int sessionCoins;
+        
         public GameplayState(AppController a, ScreenView v, AppModel m) : base(a, v){ model=m; }
 
         public override void Enter(){
             base.Enter();
+            
+            if (app.cin != null && app.smoothedInput != null)
+            {
+                if (app.autoCalibrateOnStart)
+                    app.cin.CalibrateToCurrent();
+                else
+                    app.cin.CalibrateToTarget();
+            
+                app.smoothedInput.ResetToCurrent();
+            }
+            
             var ld = AssetLoader.LoadLevel(model.currentLevel);
             var dc = AssetLoader.LoadDifficultyCurve();
             var ec = AssetLoader.LoadEconomy();
-
             
             var boardPrefab = Resources.Load<GameObject>($"Prefabs/Level/Level_{model.currentLevel}");
             
@@ -55,6 +68,17 @@ namespace Game.Controller
                 {
                     Debug.LogError("¡No se encontro 'GoalTrigger.cs' en el prefab del nivel!");
                 }
+                
+                CoinSpawner spawner = currentBoardInstance.GetComponentInChildren<CoinSpawner>();
+                if (spawner != null)
+                {
+                    spawner.OnCoinSpawned = (CoinPickup coin) => 
+                    {
+                        coin.OnCollected = HandleCoinCollected;
+                    };
+
+                    spawner.SpawnCoins();
+                }
             }
             
             diff  = new DifficultyService(dc); 
@@ -65,6 +89,10 @@ namespace Game.Controller
             
             sub = new PlayingState(this, controller); 
             sub.Enter(); 
+            
+            gameplayUI = view as GameplayView;
+            sessionCoins = 0;
+            gameplayUI?.UpdateCoinCount(sessionCoins);
         }
 
         public override void Tick()
@@ -87,7 +115,9 @@ namespace Game.Controller
 
         public void OnWin()
         {
-            app.Go<MainMenuState>();
+            model.lastSessionCoins = sessionCoins;
+
+            app.Go<VictoryState>();
         }
 
         public void OnLose()
@@ -107,6 +137,15 @@ namespace Game.Controller
             sub?.Exit(); 
             sub = new PlayingState(this, controller); 
             sub.Enter();
+        }
+        
+        private void HandleCoinCollected()
+        {
+            econ.GiveCoinReward();
+            app.haptics.Hit();
+            
+            sessionCoins++;
+            gameplayUI?.UpdateCoinCount(sessionCoins);
         }
     }
 }

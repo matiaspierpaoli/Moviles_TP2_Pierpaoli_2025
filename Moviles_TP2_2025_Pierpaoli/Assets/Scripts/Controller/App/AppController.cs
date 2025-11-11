@@ -11,7 +11,7 @@ namespace Game.Controller
     public class AppController : MonoBehaviour
     {
         [Header("Model")] public AppModel model;
-        [Header("Views")] public ScreenView bootView, mainMenuView, levelSelectView, gameplayView;
+        [Header("Views")] public ScreenView bootView, mainMenuView, levelSelectView, gameplayView, victoryView;
 
         AppStateMachine fsm;
         ITransitionStrategy transition;
@@ -21,8 +21,8 @@ namespace Game.Controller
         public Vector2 neutralTarget = new Vector2(0f, 0.35f); // Inclinación default
         public bool autoCalibrateOnStart = false;
         
-        CalibratedInput cin;
-        SmoothedInput smoothedInput;
+        public CalibratedInput cin { get; private set; }
+        public SmoothedInput smoothedInput { get; private set; }
 
         public IInputStrategy inputStrategy { get; private set; }
         public IHaptics       haptics       { get; private set; }
@@ -50,11 +50,6 @@ namespace Game.Controller
             // Services.Google = google;
 
             cin = new CalibratedInput(inputStrategy, neutralTarget);
-            if (autoCalibrateOnStart) 
-                cin.CalibrateToCurrent();
-            else
-                cin.CalibrateToTarget(); // Usa el 'neutralTarget'
-            
             smoothedInput = new SmoothedInput(cin, smoothing);
             
             // 3. Asignamos el input FINAL (suavizado) a la propiedad pública
@@ -64,6 +59,7 @@ namespace Game.Controller
             fsm.Register(new MainMenuState(this, mainMenuView));
             fsm.Register(new LevelSelectState(this, levelSelectView, model));
             fsm.Register(new GameplayState(this, gameplayView, model));
+            fsm.Register(new VictoryState(this, victoryView, model));
         }
 
         void Start()
@@ -85,6 +81,7 @@ namespace Game.Controller
             mainMenuView?.Hide(); 
             levelSelectView?.Hide(); 
             gameplayView?.Hide();
+            victoryView?.Hide();
         }
 
         // UI hooks

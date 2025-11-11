@@ -7,8 +7,6 @@ namespace Game.External
     public class AccelerometerInput : IInputStrategy
     {
         readonly ScreenOrientation orient;
-        readonly float maxPlayerTiltAngle = 15f;
-        readonly float maxG;
         readonly float deadzone = 0.05f;
 
         public AccelerometerInput(ScreenOrientation orient = ScreenOrientation.LandscapeLeft)
@@ -16,8 +14,6 @@ namespace Game.External
             this.orient = orient;
             if (Accelerometer.current != null && !Accelerometer.current.enabled)
                 InputSystem.EnableDevice(Accelerometer.current);
-            
-            this.maxG = Mathf.Sin(maxPlayerTiltAngle * Mathf.Deg2Rad);
         }
 
         public Vector2 ReadTilt()
@@ -49,10 +45,7 @@ namespace Game.External
                 rawTiltY_Pitch = -rawPitch;
             }
 
-            float tiltX = Mathf.Clamp(rawTiltX_Roll / maxG, -1f, 1f);
-            float tiltY = Mathf.Clamp(rawTiltY_Pitch / maxG, -1f, 1f);
-
-            return new Vector2(tiltX, tiltY);
+            return new Vector2(rawTiltX_Roll, rawTiltY_Pitch);
         }
         
         static Vector3 ReadRaw()

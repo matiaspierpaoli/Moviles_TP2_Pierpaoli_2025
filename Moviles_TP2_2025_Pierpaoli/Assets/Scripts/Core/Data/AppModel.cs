@@ -9,6 +9,8 @@ namespace Game.Core.Data
         public int maxUnlocked = 1;
         public int coins = 0;
 
+        [System.NonSerialized]
+        public int lastSessionCoins;
         public void SetLevel(int lvl)
         {
             var cl = Mathf.Clamp(lvl, 1, 3);

@@ -7,5 +7,11 @@ namespace Game.Core.Systems
         readonly AppModel model; readonly EconomyConfig cfg;
         public Economy(AppModel m, EconomyConfig c){ model=m; cfg=c; }
         public bool TryBuy(int price){ if (model.coins < price) return false; model.coins -= price; SaveSystem.Save(model); return true; }
+        public void GiveCoinReward()
+        {
+            model.coins += cfg.rewardPerCoin;
+        
+            SaveSystem.Save(model);
+        }
     }
 }
