@@ -25,14 +25,9 @@ namespace Game.Controller
         public override void Enter(){
             base.Enter();
             
-            if (app.cin != null && app.smoothedInput != null)
+            if (app.smartInput != null)
             {
-                if (app.autoCalibrateOnStart)
-                    app.cin.CalibrateToCurrent();
-                else
-                    app.cin.CalibrateToTarget();
-            
-                app.smoothedInput.ResetToCurrent();
+                app.smartInput.CalibrateToCurrent();
             }
             
             var ld = AssetLoader.LoadLevel(model.currentLevel);

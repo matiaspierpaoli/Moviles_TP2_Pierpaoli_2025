@@ -30,14 +30,14 @@ namespace Game.Controller.Gameplay
         {
             float pitch; 
             if (tilt.y > 0)
-                pitch = -tilt.y * maxPitchDownDeg;
+                pitch = tilt.y * maxPitchDownDeg;
             else
-                pitch = -tilt.y * maxPitchUpDeg;
+                pitch = tilt.y * maxPitchUpDeg;
             
-            float roll = -tilt.x * maxRollDeg;
+            float roll = tilt.x * maxRollDeg;
 
-            float rx = (roll - pitch);
-            float rz = (roll + pitch);
+            float rx = (roll + pitch);
+            float rz = (roll - pitch);
 
             board.localRotation = Quaternion.Euler(rx, 0f, rz);
         }

@@ -2352,9 +2352,10 @@ MonoBehaviour:
   levelSelectView: {fileID: 1536003942}
   gameplayView: {fileID: 456123538}
   victoryView: {fileID: 1360794107}
+  rollSensitivity: 45
+  pitchSensitivity: 45
   smoothing: 0.1
-  neutralTarget: {x: 0, y: 0.35}
-  autoCalibrateOnStart: 1
+  deadzone: 0.05
 --- !u!114 &1003752387
 MonoBehaviour:
   m_ObjectHideFlags: 0

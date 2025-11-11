@@ -17,13 +17,12 @@ namespace Game.Controller
         ITransitionStrategy transition;
         
         [Header("Opciones de Input")]
+        public float rollSensitivity = 45f;
+        public float pitchSensitivity = 45f;
         public float smoothing = 0.1f;
-        public Vector2 neutralTarget = new Vector2(0f, 0.35f); // Inclinación default
-        public bool autoCalibrateOnStart = false;
+        public float deadzone = 0.05f;
         
-        public CalibratedInput cin { get; private set; }
-        public SmoothedInput smoothedInput { get; private set; }
-
+        public SmartInput smartInput       { get; private set; }
         public IInputStrategy inputStrategy { get; private set; }
         public IHaptics       haptics       { get; private set; }
         public ILogService    logs          { get; private set; }
@@ -35,7 +34,8 @@ namespace Game.Controller
             transition = new FadeTransition(0.2f);
 
 #if UNITY_ANDROID && !UNITY_EDITOR
-            inputStrategy = new AccelerometerInput();
+            smartInput = new SmartInput(smoothing, deadzone, rollSensitivity, pitchSensitivity);
+            inputStrategy = smartInput;
             haptics       = new AndroidHaptics();
             logs          = new AndroidLogService();
             google        = new AndroidGpgsService();
@@ -49,12 +49,6 @@ namespace Game.Controller
             // google.Authenticate(s => Debug.Log("GPGS: " + s));
             // Services.Google = google;
 
-            cin = new CalibratedInput(inputStrategy, neutralTarget);
-            smoothedInput = new SmoothedInput(cin, smoothing);
-            
-            // 3. Asignamos el input FINAL (suavizado) a la propiedad pública
-            inputStrategy = smoothedInput;
-            
             fsm.Register(new BootState(this, bootView));
             fsm.Register(new MainMenuState(this, mainMenuView));
             fsm.Register(new LevelSelectState(this, levelSelectView, model));
@@ -93,8 +87,7 @@ namespace Game.Controller
         public void Ui_Play4(){ model.SetLevel(4); Go<GameplayState>(); }
         public void Ui_ResetCalibration()
         {
-            cin?.CalibrateToCurrent();
-            smoothedInput?.ResetToCurrent();
+            smartInput?.CalibrateToCurrent();
         }
         public void Ui_ExitGame(){ Application.Quit(); }
     }

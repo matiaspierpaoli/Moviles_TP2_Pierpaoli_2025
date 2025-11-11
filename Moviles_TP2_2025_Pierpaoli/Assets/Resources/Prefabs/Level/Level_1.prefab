@@ -899,7 +899,7 @@ MonoBehaviour:
   mazeInitialTransform: {fileID: 350698612446573080}
   maxPitchDownDeg: 15
   maxPitchUpDeg: 20
-  maxRollDeg: 20
+  maxRollDeg: 45
 --- !u!1001 &180351512408838830
 PrefabInstance:
   m_ObjectHideFlags: 0
