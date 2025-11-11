@@ -4,14 +4,14 @@ using Game.Core.ServicesCore;
 using Game.UI.Views;
 using Game.UI.Strategy;
 using Game.External;
-using Game.Controller.Gameplay;
+using Game.Core.Systems;
 
 namespace Game.Controller
 {
     public class AppController : MonoBehaviour
     {
         [Header("Model")] public AppModel model;
-        [Header("Views")] public ScreenView bootView, mainMenuView, levelSelectView, gameplayView, victoryView;
+        [Header("Views")] public ScreenView bootView, mainMenuView, levelSelectView, gameplayView, victoryView, storeView;
 
         AppStateMachine fsm;
         ITransitionStrategy transition;
@@ -54,6 +54,7 @@ namespace Game.Controller
             fsm.Register(new LevelSelectState(this, levelSelectView, model));
             fsm.Register(new GameplayState(this, gameplayView, model));
             fsm.Register(new VictoryState(this, victoryView, model));
+            fsm.Register(new StoreState(this, storeView, model));
         }
 
         void Start()
@@ -76,10 +77,12 @@ namespace Game.Controller
             levelSelectView?.Hide(); 
             gameplayView?.Hide();
             victoryView?.Hide();
+            storeView?.Hide();
         }
 
         // UI hooks
         public void Ui_ToMenu()   => Go<MainMenuState>();
+        public void Ui_ToStore()  => Go<StoreState>();
         public void Ui_ToSelect() => Go<LevelSelectState>();
         public void Ui_Play1(){ model.SetLevel(1); Go<GameplayState>(); }
         public void Ui_Play2(){ model.SetLevel(2); Go<GameplayState>(); }
@@ -88,6 +91,13 @@ namespace Game.Controller
         public void Ui_ResetCalibration()
         {
             smartInput?.CalibrateToCurrent();
+        }
+        
+        public void Ui_ResetProgress()
+        {
+            SaveSystem.ClearSave();
+            model.ResetToDefaults();
+            Go<MainMenuState>();
         }
         public void Ui_ExitGame(){ Application.Quit(); }
     }

@@ -8,5 +8,6 @@ namespace Game.Core.Data
         public int rewardPerLevel = 25;
         public int rewardPerCoin = 1;
         public int itemPrice = 50;
+        public int hiddenLevelPrice = 5;
     }
 }
