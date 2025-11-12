@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using Game.Core.Data;
 using Game.Core.ServicesCore;
@@ -11,9 +12,15 @@ namespace Game.Controller
     public class AppController : MonoBehaviour
     {
         [Header("Model")] public AppModel model;
-        [Header("Views")] public ScreenView bootView, mainMenuView, levelSelectView, gameplayView, victoryView, storeView;
+        [Header("Views")] public ScreenView bootView, mainMenuView, levelSelectView, gameplayView, victoryView, storeView, loadingView;
 
-        AppStateMachine fsm;
+        [Header("Loading Profiles")]
+        public LoadingProfile bootProfile;
+        public LoadingProfile levelProfile;
+
+        [NonSerialized]
+        public AppStateMachine fsm;
+        
         ITransitionStrategy transition;
         
         [Header("Opciones de Input")]
@@ -55,6 +62,7 @@ namespace Game.Controller
             fsm.Register(new GameplayState(this, gameplayView, model));
             fsm.Register(new VictoryState(this, victoryView, model));
             fsm.Register(new StoreState(this, storeView, model));
+            fsm.Register(new LoadingState(this, loadingView));
         }
 
         void Start()
@@ -78,16 +86,17 @@ namespace Game.Controller
             gameplayView?.Hide();
             victoryView?.Hide();
             storeView?.Hide();
+            loadingView?.Hide();
         }
 
         // UI hooks
         public void Ui_ToMenu()   => Go<MainMenuState>();
         public void Ui_ToStore()  => Go<StoreState>();
         public void Ui_ToSelect() => Go<LevelSelectState>();
-        public void Ui_Play1(){ model.SetLevel(1); Go<GameplayState>(); }
-        public void Ui_Play2(){ model.SetLevel(2); Go<GameplayState>(); }
-        public void Ui_Play3(){ model.SetLevel(3); Go<GameplayState>(); }
-        public void Ui_Play4(){ model.SetLevel(4); Go<GameplayState>(); }
+        public void Ui_Play1(){ model.SetLevel(1); SceneTransit.SetNext(typeof(GameplayState), levelProfile); Go<LoadingState>(); }
+        public void Ui_Play2(){ model.SetLevel(2); SceneTransit.SetNext(typeof(GameplayState), levelProfile); Go<LoadingState>(); }
+        public void Ui_Play3(){ model.SetLevel(3); SceneTransit.SetNext(typeof(GameplayState), levelProfile); Go<LoadingState>(); }
+        public void Ui_Play4(){ model.SetLevel(4); SceneTransit.SetNext(typeof(GameplayState), levelProfile); Go<LoadingState>(); }
         public void Ui_ResetCalibration()
         {
             smartInput?.CalibrateToCurrent();

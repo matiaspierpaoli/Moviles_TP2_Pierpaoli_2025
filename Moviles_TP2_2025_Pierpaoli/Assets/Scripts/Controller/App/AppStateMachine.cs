@@ -31,6 +31,16 @@ namespace Game.Controller
             cur.Enter();
         }
         
+        public void Change(Type T)
+        {
+            if (!map.ContainsKey(T)) return;
+            IAppState nxt = map[T];
+            if (cur == nxt) return;
+            cur?.Exit();
+            cur = nxt;
+            cur.Enter();
+        }
+        
         public void Tick()
         {
             cur?.Tick();

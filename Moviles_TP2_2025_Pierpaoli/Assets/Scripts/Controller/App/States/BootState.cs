@@ -9,9 +9,10 @@ namespace Game.Controller
         public override void Enter()
         {
             SaveSystem.Load(app.model);
-            base.Enter();
+            //base.Enter();
             //app.logs.Send("Boot", "", "Info");
-            app.Go<MainMenuState>();
+            SceneTransit.SetNext(typeof(MainMenuState), app.bootProfile);
+            app.Go<LoadingState>();
         }
     }
 }
