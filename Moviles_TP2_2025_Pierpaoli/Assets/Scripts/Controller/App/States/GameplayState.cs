@@ -25,6 +25,11 @@ namespace Game.Controller
         public override void Enter(){
             base.Enter();
             
+#if UNITY_ANDROID && !UNITY_EDITOR
+            if (Screen.orientation !=  ScreenOrientation.LandscapeLeft)
+                Screen.orientation = ScreenOrientation.LandscapeLeft;
+#endif
+            
             if (app.smartInput != null)
             {
                 app.smartInput.CalibrateToCurrent();

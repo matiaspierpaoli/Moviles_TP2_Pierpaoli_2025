@@ -11,12 +11,12 @@ namespace Game.UI.Views
         {
             if (sessionCoinsText != null)
             {
-                sessionCoinsText.text = "Coins earned: " + sessionCoins;
+                sessionCoinsText.text = "Earned:   " + sessionCoins;
             }
 
             if (totalCoinsText != null)
             {
-                totalCoinsText.text = "Total coins: " + totalCoins;
+                totalCoinsText.text = "Total:   " + totalCoins;
             }
         }
     }
