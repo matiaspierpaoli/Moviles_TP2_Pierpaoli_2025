@@ -5,12 +5,7 @@ namespace Game.External
 {
     public class AndroidHaptics : IHaptics
     {
-        public void Hit()
-        {
-            Handheld.Vibrate();
-        }
-
-        public void Goal()
+        public void PlaySimpleVibration()
         {
             Handheld.Vibrate();
         }

@@ -32,16 +32,6 @@ namespace Game.Controller.Gameplay
             view.SetBoardTilt(tilt);
         }
 
-        public void OnHit()
-        {
-            haptics.Hit();
-        }
-
-        public void OnGoal()
-        {
-            haptics.Goal();
-        }
-
         public void Dispose()
         {
             

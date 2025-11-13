@@ -12,6 +12,7 @@ namespace Game.Controller
         readonly AppModel model;
         DifficultyService diff;
         Economy econ;
+        BallMaterialConfig ballMaterialCfg;
         LevelController controller;
         BaseGameplaySubstate sub;
 
@@ -38,6 +39,11 @@ namespace Game.Controller
             var ld = AssetLoader.LoadLevel(model.currentLevel);
             var dc = AssetLoader.LoadDifficultyCurve();
             var ec = AssetLoader.LoadEconomy();
+            
+            ballMaterialCfg = AssetLoader.LoadBallMaterialConfig();
+            
+            diff  = new DifficultyService(dc); 
+            econ  = new Economy(model, ec, ballMaterialCfg);
             
             var boardPrefab = Resources.Load<GameObject>($"Prefabs/Level/Level_{model.currentLevel}");
             
@@ -81,8 +87,15 @@ namespace Game.Controller
                 }
             }
             
-            diff  = new DifficultyService(dc); 
-            econ  = new Economy(model, ec);
+            BallMaterialConfig.MaterialItem selectedItem = econ.GetSelectedMaterialItem();
+            if (selectedItem != null && selectedItem.material != null)
+            {
+                MeshRenderer ballRenderer = boardView.ball.GetComponent<MeshRenderer>();
+                if (ballRenderer != null)
+                {
+                    ballRenderer.material = selectedItem.material;
+                }
+            }
             
             controller = new LevelController(new LevelModel(ld), boardView, app.inputStrategy, app.haptics, diff); 
             controller.StartLevel(); 
@@ -142,7 +155,7 @@ namespace Game.Controller
         private void HandleCoinCollected()
         {
             econ.GiveCoinReward();
-            app.haptics.Hit();
+            app.haptics.PlaySimpleVibration();
             
             sessionCoins++;
             gameplayUI?.UpdateCoinCount(sessionCoins);

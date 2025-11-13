@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58df5f703f3f4dfca05e23373fa93658, type: 3}
+  m_Name: BallMaterialConfig
+  m_EditorClassIdentifier: 
+  materialItems:
+  - id: 1
+    displayName: Default
+    material: {fileID: 2100000, guid: 80d93886531939d499d974416375ca01, type: 2}
+    icon: {fileID: 21300000, guid: 4d5adbed327caa54f99bb4b5eb9c51d5, type: 3}
+    price: 0
+    isDefault: 1
+  - id: 2
+    displayName: Snow
+    material: {fileID: 2100000, guid: 702e989abccb3e245843bed5d90a579d, type: 2}
+    icon: {fileID: 21300000, guid: 62e88d2c7f0b50b4398d3651067fc87b, type: 3}
+    price: 3
+    isDefault: 0
+  - id: 3
+    displayName: Christmas
+    material: {fileID: 2100000, guid: 28252c44e82173a42a0c60dc4ecce181, type: 2}
+    icon: {fileID: 21300000, guid: 3b91ae6b2ae5cf148bd993ce85f242dc, type: 3}
+    price: 5
+    isDefault: 0
+  - id: 4
+    displayName: Lava
+    material: {fileID: 2100000, guid: a49012d602faea245be1ef053b25e9a6, type: 2}
+    icon: {fileID: 21300000, guid: 54f3252b95be92347915bfb6f8dde515, type: 3}
+    price: 8
+    isDefault: 0
+  - id: 5
+    displayName: Robotic
+    material: {fileID: 2100000, guid: 4e79d661a37bef447874b4bba70090b4, type: 2}
+    icon: {fileID: 21300000, guid: 36ae2c80dff58b04ca1705c9a1d345dd, type: 3}
+    price: 10
+    isDefault: 0

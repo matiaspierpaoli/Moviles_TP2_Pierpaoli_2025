@@ -1,6 +1,9 @@
 using Game.Core.Data;
 using Game.UI.Views;
 using Game.Core.Systems;
+using Game.External;
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace Game.Controller
 {
@@ -9,6 +12,7 @@ namespace Game.Controller
         private readonly AppModel model;
         private Economy econ;
         private EconomyConfig econCfg;
+        private BallMaterialConfig ballMaterialCfg;
         private StoreView storeView;
 
         public StoreState(AppController a, ScreenView v, AppModel m) : base(a, v)
@@ -24,10 +28,12 @@ namespace Game.Controller
             if (storeView == null) return;
 
             econCfg = AssetLoader.LoadEconomy();
-            econ = new Economy(model, econCfg);
+            ballMaterialCfg = AssetLoader.LoadBallMaterialConfig();
+            econ = new Economy(model, econCfg, ballMaterialCfg);
 
-            storeView.buyHiddenLevelButton.onClick.AddListener(OnBuyHiddenLevelClicked);
-
+            // storeView.buyHiddenLevelButton.onClick.RemoveAllListeners();
+            // storeView.buyHiddenLevelButton.onClick.AddListener(OnBuyHiddenLevelClicked);
+            
             RefreshUI();
         }
 
@@ -35,18 +41,32 @@ namespace Game.Controller
         {
             if (storeView != null)
             {
-                storeView.buyHiddenLevelButton.onClick.RemoveListener(OnBuyHiddenLevelClicked);
+                //storeView.buyHiddenLevelButton.onClick.RemoveListener(OnBuyHiddenLevelClicked);
             }
             base.Exit();
         }
 
+        private void OnMaterialButtonClicked(string materialId)
+        {
+            if (model.ownedBallMaterialIds.Contains(materialId))
+            {
+                econ.SelectMaterial(materialId);
+            }
+            else
+            {
+                bool success = econ.TryBuyMaterial(materialId);
+                if (success) { app.haptics.PlaySimpleVibration(); }
+            }
+            RefreshUI();
+        }
+        
         private void OnBuyHiddenLevelClicked()
         {
             bool success = econ.TryBuyHiddenLevel();
 
             if (success)
             {
-                app.haptics.Goal();
+                app.haptics.PlaySimpleVibration();
             }
 
             RefreshUI();
@@ -54,7 +74,15 @@ namespace Game.Controller
 
         private void RefreshUI()
         {
-            storeView.UpdateView(model.coins, econCfg.hiddenLevelPrice, model.hiddenLevelUnlocked);
+            storeView.UpdateGeneralUI(model.coins, econCfg.hiddenLevelPrice, model.hiddenLevelUnlocked);
+        
+            storeView.SetupMaterialButtons(
+                ballMaterialCfg.materialItems,
+                model.coins,
+                model.selectedBallMaterialId,
+                model.ownedBallMaterialIds,
+                OnMaterialButtonClicked
+            );
         }
     }
 }

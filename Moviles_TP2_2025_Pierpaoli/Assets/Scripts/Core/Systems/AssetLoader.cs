@@ -23,5 +23,10 @@ namespace Game.Core.Systems
             Resources.Load<LevelParameters>("Difficulty/DifficultyCurve");
 
         public static EconomyConfig LoadEconomy() => Resources.Load<EconomyConfig>("Economy/EconomyConfig");
+        
+        public static BallMaterialConfig LoadBallMaterialConfig()
+        {
+            return Resources.Load<BallMaterialConfig>("Ball/BallMaterialConfig");
+        }
     }
 }
