@@ -15,7 +15,7 @@ MonoBehaviour:
   showProgressBar: 1
   shouldShowHint: 0
   minDisplayTime: 2.5
-  backgoundSprite: {fileID: 21300000, guid: e45bcdcb8548d584c9cbfb409e4081be, type: 3}
+  backgoundSprite: {fileID: 21300000, guid: 59f3392222ca9ef45aa7f1ba7704b17d, type: 3}
   fakeCurve:
     serializedVersion: 2
     m_Curve:

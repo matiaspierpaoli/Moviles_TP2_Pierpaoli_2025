@@ -16,10 +16,6 @@ namespace Game.Controller
         public override void Enter()
         {
             base.Enter();
-#if UNITY_ANDROID && !UNITY_EDITOR
-            if (Screen.orientation !=  ScreenOrientation.Portrait)
-                Screen.orientation = ScreenOrientation.Portrait;
-#endif
 
             VictoryView victoryUI = view as VictoryView;
             if (victoryUI == null) return;

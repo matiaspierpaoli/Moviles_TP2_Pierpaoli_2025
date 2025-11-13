@@ -8,14 +8,5 @@ namespace Game.Controller
         public MainMenuState(AppController a, ScreenView v) : base(a, v)
         {
         }
-
-        public override void Enter()
-        {
-            base.Enter();
-#if UNITY_ANDROID && !UNITY_EDITOR
-            if (Screen.orientation !=  ScreenOrientation.Portrait)
-                Screen.orientation = ScreenOrientation.Portrait;
-#endif
-        }
     }
 }

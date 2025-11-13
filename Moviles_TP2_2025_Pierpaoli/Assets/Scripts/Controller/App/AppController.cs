@@ -102,6 +102,12 @@ namespace Game.Controller
             smartInput?.CalibrateToCurrent();
         }
         
+        public void Ui_RestartLevel()
+        {
+            SceneTransit.SetNext(typeof(GameplayState), levelProfile);
+            Go<LoadingState>();
+        }
+        
         public void Ui_ResetProgress()
         {
             SaveSystem.ClearSave();

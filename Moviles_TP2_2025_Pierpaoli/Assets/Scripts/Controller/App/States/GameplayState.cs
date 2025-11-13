@@ -1,3 +1,4 @@
+using System.Collections;
 using Game.Controller.Gameplay;
 using Game.Core.GameplayModel;
 using Game.Core.Data;
@@ -20,94 +21,75 @@ namespace Game.Controller
 
         private GameplayView gameplayUI;
         private int sessionCoins;
+        private CoinSpawner activeSpawner;
         
         public GameplayState(AppController a, ScreenView v, AppModel m) : base(a, v){ model=m; }
 
-        public override void Enter(){
+        public override void Enter()
+        {
             base.Enter();
             
-#if UNITY_ANDROID && !UNITY_EDITOR
-            if (Screen.orientation !=  ScreenOrientation.LandscapeLeft)
-                Screen.orientation = ScreenOrientation.LandscapeLeft;
-#endif
-            
-            if (app.smartInput != null)
-            {
-                app.smartInput.CalibrateToCurrent();
-            }
-            
+            gameplayUI = view as GameplayView;
+            sessionCoins = 0;
+            gameplayUI?.UpdateCoinCount(sessionCoins);
+
             var ld = AssetLoader.LoadLevel(model.currentLevel);
             var dc = AssetLoader.LoadDifficultyCurve();
             var ec = AssetLoader.LoadEconomy();
             
             ballMaterialCfg = AssetLoader.LoadBallMaterialConfig();
-            
-            diff  = new DifficultyService(dc); 
             econ  = new Economy(model, ec, ballMaterialCfg);
-            
+
             var boardPrefab = Resources.Load<GameObject>($"Prefabs/Level/Level_{model.currentLevel}");
-            
             BoardView boardView = null;
+
             if (boardPrefab != null)
             {
                 currentBoardInstance = Object.Instantiate(boardPrefab);
-                
                 boardView = currentBoardInstance.GetComponent<BoardView>();
-            }
-            
-            if (boardView == null)
-            {
-                Debug.LogError($"Error al cargar el prefab del nivel {model.currentLevel}. Asegurate de que exista en 'Resources/Prefabs/' y tenga un componente 'BoardView'.");
-                app.Go<LevelSelectState>();
-                return;
-            }
-            
-            if (currentBoardInstance != null)
-            {
-                GoalTrigger goal = currentBoardInstance.GetComponentInChildren<GoalTrigger>();
-
-                if (goal != null)
-                {
-                    goal.OnGoalReached = this.OnWin;
-                }
-                else
-                {
-                    Debug.LogError("¡No se encontro 'GoalTrigger.cs' en el prefab del nivel!");
-                }
                 
-                CoinSpawner spawner = currentBoardInstance.GetComponentInChildren<CoinSpawner>();
-                if (spawner != null)
+                if (boardView != null && boardView.ball != null)
                 {
-                    spawner.OnCoinSpawned = (CoinPickup coin) => 
-                    {
-                        coin.OnCollected = HandleCoinCollected;
-                    };
+                    var selectedItem = econ.GetSelectedMaterialItem();
+                    if (selectedItem != null) boardView.ball.GetComponent<MeshRenderer>().material = selectedItem.material;
+                }
+            }
 
-                    spawner.SpawnCoins();
-                }
-            }
-            
-            BallMaterialConfig.MaterialItem selectedItem = econ.GetSelectedMaterialItem();
-            if (selectedItem != null && selectedItem.material != null)
+            if (boardView == null) { app.Go<LevelSelectState>(); return; }
+
+            GoalTrigger goal = currentBoardInstance.GetComponentInChildren<GoalTrigger>();
+            if (goal) goal.OnGoalReached = this.OnWin;
+
+            activeSpawner = currentBoardInstance.GetComponentInChildren<CoinSpawner>();
+            if (activeSpawner)
             {
-                MeshRenderer ballRenderer = boardView.ball.GetComponent<MeshRenderer>();
-                if (ballRenderer != null)
-                {
-                    ballRenderer.material = selectedItem.material;
-                }
+                activeSpawner.OnCoinSpawned = (coin) => coin.OnCollected = HandleCoinCollected;
             }
-            
-            controller = new LevelController(new LevelModel(ld), boardView, app.inputStrategy, app.haptics, diff); 
-            controller.StartLevel(); 
-            
-            sub = new PlayingState(this, controller); 
-            sub.Enter(); 
-            
-            gameplayUI = view as GameplayView;
-            sessionCoins = 0;
-            gameplayUI?.UpdateCoinCount(sessionCoins);
+
+            diff  = new DifficultyService(dc);
+            controller = new LevelController(new LevelModel(ld), boardView, app.inputStrategy, app.haptics, diff);
+
+            gameplayUI?.ShowReadyPhase(StartGameplay);
         }
 
+        private void StartGameplay()
+        {
+            if (app.smartInput != null)
+            {
+                app.smartInput.CalibrateToCurrent();
+                app.smartInput.ResetToCurrent();
+            }
+
+            if (activeSpawner != null)
+            {
+                activeSpawner.SpawnCoins();
+            }
+
+            controller.StartLevel();
+            sub = new PlayingState(this, controller);
+            sub.Enter();
+        }
+        
         public override void Tick()
         {
             sub?.Tick();
