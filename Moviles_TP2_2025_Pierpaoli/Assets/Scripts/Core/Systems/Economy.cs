@@ -24,12 +24,6 @@ namespace Game.Core.Systems
             SaveSystem.Save(model); 
             return true;
         }
-        public void GiveCoinReward()
-        {
-            model.coins += cfg.rewardPerCoin;
-        
-            SaveSystem.Save(model);
-        }
         
         public bool TryBuyHiddenLevel()
         {
@@ -47,14 +41,13 @@ namespace Game.Core.Systems
             return materialCfg.materialItems.FirstOrDefault(item => item.id == model.selectedBallMaterialId);
         }
 
-        // Intenta comprar un material
         public bool TryBuyMaterial(string materialId)
         {
             BallMaterialConfig.MaterialItem itemToBuy = materialCfg.materialItems.FirstOrDefault(item => item.id == materialId);
-            if (itemToBuy == null) return false; // Material no encontrado
+            if (itemToBuy == null) return false;
 
-            if (model.ownedBallMaterialIds.Contains(materialId)) return false; // Ya lo tiene
-            if (model.coins < itemToBuy.price) return false; // No le alcanza
+            if (model.ownedBallMaterialIds.Contains(materialId)) return false; 
+            if (model.coins < itemToBuy.price) return false; 
 
             model.coins -= itemToBuy.price;
             model.AddOwnedMaterial(materialId);
@@ -62,17 +55,24 @@ namespace Game.Core.Systems
             return true;
         }
 
-        // Selecciona un material que ya posee
         public bool SelectMaterial(string materialId)
         {
-            if (!model.ownedBallMaterialIds.Contains(materialId)) return false; // No lo posee
+            if (!model.ownedBallMaterialIds.Contains(materialId)) return false; 
 
             model.selectedBallMaterialId = materialId;
-            SaveSystem.Save(model); // Guarda la selección
+            SaveSystem.Save(model); 
             return true;
         }
+        
+        public void AddSessionCoins(int collectedCount)
+        {
+            if (collectedCount <= 0) return;
 
-        // Comprueba si el jugador tiene un material
+            int amount = collectedCount * cfg.rewardPerCoin; 
+            model.coins += amount;
+            SaveSystem.Save(model);
+        }
+        
         public bool HasMaterial(string materialId)
         {
             return model.ownedBallMaterialIds.Contains(materialId);

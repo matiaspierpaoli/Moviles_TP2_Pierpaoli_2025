@@ -128,6 +128,7 @@ namespace Game.Controller
 
         public void OnWin()
         {
+            econ.AddSessionCoins(sessionCoins);
             model.lastSessionCoins = sessionCoins;
 
             app.Go<VictoryState>();
@@ -154,9 +155,7 @@ namespace Game.Controller
         
         private void HandleCoinCollected()
         {
-            econ.GiveCoinReward();
             app.haptics.PlaySimpleVibration();
-            
             sessionCoins++;
             gameplayUI?.UpdateCoinCount(sessionCoins);
         }
