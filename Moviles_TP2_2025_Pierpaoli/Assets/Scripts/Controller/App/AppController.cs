@@ -104,8 +104,7 @@ namespace Game.Controller
         
         public void Ui_RestartLevel()
         {
-            SceneTransit.SetNext(typeof(GameplayState), levelProfile);
-            Go<LoadingState>();
+            fsm.Change<GameplayState>(force: true);
         }
         
         public void Ui_ResetProgress()

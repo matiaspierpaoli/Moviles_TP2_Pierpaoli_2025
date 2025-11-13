@@ -22,10 +22,12 @@ namespace Game.Controller
 
         public T Get<T>() where T : IAppState => (T)map[typeof(T)];
 
-        public void Change<T>() where T : IAppState
+        public void Change<T>(bool force = false) where T : IAppState
         {
             IAppState nxt = Get<T>();
-            if (cur == nxt) return;
+            
+            if (!force && cur == nxt) return;
+            
             cur?.Exit();
             cur = nxt;
             cur.Enter();
