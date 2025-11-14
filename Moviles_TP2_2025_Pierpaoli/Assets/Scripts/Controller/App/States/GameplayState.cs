@@ -23,6 +23,7 @@ namespace Game.Controller
         private int sessionCoins;
         private CoinSpawner activeSpawner;
         
+        private TutorialSequencer tutorial;
         public GameplayState(AppController a, ScreenView v, AppModel m) : base(a, v){ model=m; }
 
         public override void Enter()
@@ -32,6 +33,7 @@ namespace Game.Controller
             gameplayUI = view as GameplayView;
             sessionCoins = 0;
             gameplayUI?.UpdateCoinCount(sessionCoins);
+            gameplayUI?.HideTutorial();
 
             var ld = AssetLoader.LoadLevel(model.currentLevel);
             var dc = AssetLoader.LoadDifficultyCurve();
@@ -69,30 +71,55 @@ namespace Game.Controller
             diff  = new DifficultyService(dc);
             controller = new LevelController(new LevelModel(ld), boardView, app.inputStrategy, app.haptics, diff);
 
-            gameplayUI?.ShowReadyPhase(StartGameplay);
+            if (model.startTutorial)
+            {
+                model.startTutorial = false;
+            
+                gameplayUI.readyPanel.gameObject.SetActive(false);
+                
+                var tutorialTriggers = currentBoardInstance.GetComponentsInChildren<TutorialStepTrigger>(true);
+            
+                StartTutorial(tutorialTriggers);
+            }
+            else
+            {
+                gameplayUI?.ShowReadyPhase(StartGameplay);
+            }
         }
 
         private void StartGameplay()
         {
-            if (app.smartInput != null)
-            {
-                app.smartInput.CalibrateToCurrent();
-                app.smartInput.ResetToCurrent();
-            }
-
-            if (activeSpawner != null)
-            {
-                activeSpawner.SpawnCoins();
-            }
-
+            CalibrateInput();
+            SpawnCoins();
             controller.StartLevel();
             sub = new PlayingState(this, controller);
             sub.Enter();
         }
         
+        private void StartTutorial(TutorialStepTrigger[] triggers) 
+        {
+            tutorial = new TutorialSequencer(this, controller, gameplayUI, app.inputStrategy, triggers);
+        
+            tutorial.OnTutorialComplete = () => {
+                tutorial = null;
+                model.hasSeenTutorial = true; 
+                SaveSystem.Save(model);
+                app.Go<MainMenuState>();
+            };
+            tutorial.Start();
+        }
+        
+        public void StartGameplay_Internal()
+        {
+            StartGameplay();
+        }
+        
         public override void Tick()
         {
-            sub?.Tick();
+            if (tutorial != null)
+                tutorial.Tick();
+            else
+                sub?.Tick();
         }
         
         public override void Exit(){
@@ -108,6 +135,22 @@ namespace Game.Controller
             base.Exit();
         }
 
+        public void CalibrateInput()
+        {
+            if (app.smartInput != null) {
+                app.smartInput.CalibrateToCurrent();
+                app.smartInput.ResetToCurrent();
+            }
+        }
+        
+        public void SpawnCoins()
+        {
+            if (activeSpawner != null) {
+                activeSpawner.OnCoinSpawned = (coin) => coin.OnCollected = HandleCoinCollected;
+                activeSpawner.SpawnCoins();
+            }
+        }
+        
         public void OnWin()
         {
             econ.AddSessionCoins(sessionCoins);

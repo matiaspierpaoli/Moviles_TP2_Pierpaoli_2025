@@ -5,7 +5,8 @@
         "Game.Core",
         "Game.UI",
         "Game.External",
-        "Unity.InputSystem"
+        "Unity.InputSystem",
+        "Unity.TextMeshPro"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

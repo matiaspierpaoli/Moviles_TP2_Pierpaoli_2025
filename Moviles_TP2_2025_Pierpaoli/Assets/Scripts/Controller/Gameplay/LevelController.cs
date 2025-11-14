@@ -1,6 +1,7 @@
 using Game.Core.GameplayModel;
 using Game.Core.ServicesCore;
 using Game.Core.Systems;
+using UnityEngine;
 
 namespace Game.Controller.Gameplay
 {
@@ -26,6 +27,11 @@ namespace Game.Controller.Gameplay
             
         }
 
+        public void ResetTilt()
+        {
+            view.ResetBoardToDefaultState();
+        }
+        
         public void Tick(float n01)
         {
             var tilt = input.ReadTilt();

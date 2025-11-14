@@ -102,6 +102,15 @@ namespace Game.Controller
             smartInput?.CalibrateToCurrent();
         }
         
+        public void Ui_StartTutorial()
+        {
+            model.startTutorial = true;
+            model.SetLevel(1);
+        
+            SceneTransit.SetNext(typeof(GameplayState), levelProfile);
+            Go<LoadingState>();
+        }
+        
         public void Ui_RestartLevel()
         {
             fsm.Change<GameplayState>(force: true);
