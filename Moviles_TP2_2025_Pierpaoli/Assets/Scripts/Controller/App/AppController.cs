@@ -12,7 +12,7 @@ namespace Game.Controller
     public class AppController : MonoBehaviour
     {
         [Header("Model")] public AppModel model;
-        [Header("Views")] public ScreenView bootView, mainMenuView, levelSelectView, gameplayView, victoryView, storeView, loadingView;
+        [Header("Views")] public ScreenView bootView, mainMenuView, levelSelectView, gameplayView, victoryView, storeView, loadingView, logView;
 
         [Header("Loading Profiles")]
         public LoadingProfile bootProfile;
@@ -63,6 +63,7 @@ namespace Game.Controller
             fsm.Register(new VictoryState(this, victoryView, model));
             fsm.Register(new StoreState(this, storeView, model));
             fsm.Register(new LoadingState(this, loadingView));
+            fsm.Register(new LogViewState(this, logView));
         }
 
         void Start()
@@ -87,12 +88,14 @@ namespace Game.Controller
             victoryView?.Hide();
             storeView?.Hide();
             loadingView?.Hide();
+            logView?.Hide();
         }
 
         // UI hooks
         public void Ui_ToMenu()   => Go<MainMenuState>();
         public void Ui_ToStore()  => Go<StoreState>();
         public void Ui_ToSelect() => Go<LevelSelectState>();
+        public void Ui_ToLogs() => Go<LogViewState>();
         public void Ui_Play1(){ model.SetLevel(1); SceneTransit.SetNext(typeof(GameplayState), levelProfile); Go<LoadingState>(); }
         public void Ui_Play2(){ model.SetLevel(2); SceneTransit.SetNext(typeof(GameplayState), levelProfile); Go<LoadingState>(); }
         public void Ui_Play3(){ model.SetLevel(3); SceneTransit.SetNext(typeof(GameplayState), levelProfile); Go<LoadingState>(); }
