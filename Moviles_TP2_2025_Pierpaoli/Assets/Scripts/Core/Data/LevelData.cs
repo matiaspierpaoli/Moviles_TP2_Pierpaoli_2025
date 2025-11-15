@@ -6,9 +6,12 @@ namespace Game.Core.Data
     public class LevelData : ScriptableObject
     {
         public int id = 1;
-        public int sessionSeconds = 240; // 4 min
-        public LevelParameters parameters;
+        public int sessionSeconds = 240;
+        
+        public GameObject boardPrefab;
 
+        public LevelParameters parameters;
         public TextAsset layoutJson;
+        public Sprite backgroundSprite;
     }
 }

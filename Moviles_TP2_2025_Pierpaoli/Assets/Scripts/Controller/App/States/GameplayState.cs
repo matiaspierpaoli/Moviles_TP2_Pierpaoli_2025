@@ -36,15 +36,20 @@ namespace Game.Controller
             gameplayUI?.HideTutorial();
 
             var ld = AssetLoader.LoadLevel(model.currentLevel);
-            var dc = AssetLoader.LoadDifficultyCurve();
             var ec = AssetLoader.LoadEconomy();
+            
+            if (app.backgroundImage != null && ld.backgroundSprite != null)
+            {
+                app.backgroundImage.sprite = ld.backgroundSprite;
+                app.backgroundImage.enabled = true;
+            }
             
             ballMaterialCfg = AssetLoader.LoadBallMaterialConfig();
             econ  = new Economy(model, ec, ballMaterialCfg);
 
-            var boardPrefab = Resources.Load<GameObject>($"Prefabs/Level/Level_{model.currentLevel}");
-            BoardView boardView = null;
+            var boardPrefab = ld.boardPrefab;
 
+            BoardView boardView = null;
             if (boardPrefab != null)
             {
                 currentBoardInstance = Object.Instantiate(boardPrefab);
@@ -68,7 +73,7 @@ namespace Game.Controller
                 activeSpawner.OnCoinSpawned = (coin) => coin.OnCollected = HandleCoinCollected;
             }
 
-            diff  = new DifficultyService(dc);
+            diff = new DifficultyService(ld.parameters);
             controller = new LevelController(new LevelModel(ld), boardView, app.inputStrategy, app.haptics, diff);
 
             if (model.startTutorial)
@@ -126,6 +131,11 @@ namespace Game.Controller
             sub?.Exit();
             controller?.Dispose();
 
+            if (app.backgroundImage != null)
+            {
+                app.backgroundImage.enabled = false;
+            }
+            
             if (currentBoardInstance != null)
             {
                 Object.Destroy(currentBoardInstance);

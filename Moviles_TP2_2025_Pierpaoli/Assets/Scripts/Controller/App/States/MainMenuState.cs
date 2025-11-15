@@ -8,5 +8,15 @@ namespace Game.Controller
         public MainMenuState(AppController a, ScreenView v) : base(a, v)
         {
         }
+        
+        public override void Enter()
+        {
+            if (app.backgroundImage != null)
+            {
+                app.backgroundImage.enabled = false;
+            }
+        
+            base.Enter();
+        }
     }
 }

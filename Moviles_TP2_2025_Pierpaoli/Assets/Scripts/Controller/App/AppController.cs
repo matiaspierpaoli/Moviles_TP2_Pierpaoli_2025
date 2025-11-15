@@ -6,6 +6,7 @@ using Game.UI.Views;
 using Game.UI.Strategy;
 using Game.External;
 using Game.Core.Systems;
+using UnityEngine.UI;
 
 namespace Game.Controller
 {
@@ -17,7 +18,9 @@ namespace Game.Controller
         [Header("Loading Profiles")]
         public LoadingProfile bootProfile;
         public LoadingProfile levelProfile;
-
+        
+        public Image backgroundImage;
+        
         [NonSerialized]
         public AppStateMachine fsm;
         
@@ -39,6 +42,8 @@ namespace Game.Controller
         {
             fsm = new AppStateMachine();
             transition = new FadeTransition(0.2f);
+            
+            backgroundImage.enabled = false;
 
 #if UNITY_ANDROID && !UNITY_EDITOR
             smartInput = new SmartInput(smoothing, deadzone, rollSensitivity, pitchSensitivity);
@@ -96,10 +101,10 @@ namespace Game.Controller
         public void Ui_ToStore()  => Go<StoreState>();
         public void Ui_ToSelect() => Go<LevelSelectState>();
         public void Ui_ToLogs() => Go<LogViewState>();
-        public void Ui_Play1(){ model.SetLevel(1); SceneTransit.SetNext(typeof(GameplayState), levelProfile); Go<LoadingState>(); }
-        public void Ui_Play2(){ model.SetLevel(2); SceneTransit.SetNext(typeof(GameplayState), levelProfile); Go<LoadingState>(); }
-        public void Ui_Play3(){ model.SetLevel(3); SceneTransit.SetNext(typeof(GameplayState), levelProfile); Go<LoadingState>(); }
-        public void Ui_Play4(){ model.SetLevel(4); SceneTransit.SetNext(typeof(GameplayState), levelProfile); Go<LoadingState>(); }
+        public void Ui_Play1(){ model.SetLevel(2); SceneTransit.SetNext(typeof(GameplayState), levelProfile); Go<LoadingState>(); }
+        public void Ui_Play2(){ model.SetLevel(3); SceneTransit.SetNext(typeof(GameplayState), levelProfile); Go<LoadingState>(); }
+        public void Ui_Play3(){ model.SetLevel(4); SceneTransit.SetNext(typeof(GameplayState), levelProfile); Go<LoadingState>(); }
+        public void Ui_Play4(){ model.SetLevel(5); SceneTransit.SetNext(typeof(GameplayState), levelProfile); Go<LoadingState>(); }
         public void Ui_ResetCalibration()
         {
             smartInput?.CalibrateToCurrent();

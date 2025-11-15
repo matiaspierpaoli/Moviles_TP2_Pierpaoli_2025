@@ -20,8 +20,7 @@ namespace Game.Core.Data
         public List<string> ownedBallMaterialIds = new List<string>();
         public void SetLevel(int lvl)
         {
-            var cl = Mathf.Clamp(lvl, 1, 3);
-            currentLevel = cl;
+            currentLevel = lvl;
         }
         
         public void AddOwnedMaterial(string materialId)

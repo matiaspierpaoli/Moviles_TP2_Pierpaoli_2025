@@ -33,6 +33,11 @@ namespace Game.Controller
 
             // storeView.buyHiddenLevelButton.onClick.RemoveAllListeners();
             // storeView.buyHiddenLevelButton.onClick.AddListener(OnBuyHiddenLevelClicked);
+
+            if (app.backgroundImage != null)
+            {
+                app.backgroundImage.enabled = false;
+            }
             
             RefreshUI();
         }

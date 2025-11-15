@@ -25,6 +25,11 @@ namespace Game.Controller
             {
                 Debug.LogError("La 'LoadingView' asignada en AppController no tiene el script 'LoadingView.cs'");
             }
+            
+            if (app.backgroundImage != null)
+            {
+                app.backgroundImage.enabled = false;
+            }
         }
 
         public override void Enter()
