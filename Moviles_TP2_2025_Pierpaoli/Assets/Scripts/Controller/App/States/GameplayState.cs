@@ -78,7 +78,7 @@ namespace Game.Controller
 
             if (model.startTutorial)
             {
-                model.startTutorial = false;
+                
             
                 gameplayUI.readyPanel.gameObject.SetActive(false);
                 
@@ -163,10 +163,17 @@ namespace Game.Controller
         
         public void OnWin()
         {
-            econ.AddSessionCoins(sessionCoins);
-            model.lastSessionCoins = sessionCoins;
-
-            app.Go<VictoryState>();
+            if (app.model.startTutorial)
+            {
+                model.startTutorial = false;
+                app.Go<MainMenuState>();
+            }
+            else
+            {
+                econ.AddSessionCoins(sessionCoins);
+                model.lastSessionCoins = sessionCoins;
+                app.Go<VictoryState>();
+            }
         }
 
         public void OnLose()
