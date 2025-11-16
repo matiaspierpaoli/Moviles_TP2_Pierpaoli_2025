@@ -13,10 +13,9 @@ namespace Game.Controller
     public class AppController : MonoBehaviour
     {
         [Header("Model")] public AppModel model;
-        [Header("Views")] public ScreenView bootView, mainMenuView, levelSelectView, gameplayView, victoryView, storeView, loadingView, logView;
+        [Header("Views")] public ScreenView mainMenuView, levelSelectView, gameplayView, victoryView, storeView, loadingView, logView;
 
         [Header("Loading Profiles")]
-        public LoadingProfile bootProfile;
         public LoadingProfile levelProfile;
         
         public Image backgroundImage;
@@ -61,7 +60,8 @@ namespace Game.Controller
             // google.Authenticate(s => Debug.Log("GPGS: " + s));
             // Services.Google = google;
 
-            fsm.Register(new BootState(this, bootView));
+            SaveSystem.Load(model);
+            
             fsm.Register(new MainMenuState(this, mainMenuView));
             fsm.Register(new LevelSelectState(this, levelSelectView, model));
             fsm.Register(new GameplayState(this, gameplayView, model));
@@ -74,7 +74,7 @@ namespace Game.Controller
         void Start()
         {
             HideAll(); 
-            fsm.Change<BootState>();
+            fsm.Change<MainMenuState>();
         }
         public void Go<T>() where T : IAppState => fsm.Change<T>();
         public void Swap(ScreenView from, ScreenView to) => StartCoroutine(transition.Play(from, to));
@@ -86,7 +86,6 @@ namespace Game.Controller
         
         void HideAll()
         {
-            bootView?.Hide(); 
             mainMenuView?.Hide(); 
             levelSelectView?.Hide(); 
             gameplayView?.Hide();

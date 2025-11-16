@@ -12,18 +12,7 @@ namespace Game.Controller
             SaveSystem.Load(app.model);
             //base.Enter();
             //app.logs.Send("Boot", "", "Info");
-            
-            if (app.model.hasSeenTutorial)
-            {
-                SceneTransit.SetNext(typeof(MainMenuState), app.bootProfile);
-            }
-            else
-            {
-                app.model.startTutorial = true;
-                app.model.SetLevel(1); 
 
-                SceneTransit.SetNext(typeof(GameplayState), app.levelProfile);
-            }
             app.Go<LoadingState>();
         }
     }

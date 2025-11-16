@@ -1,5 +1,5 @@
-using UnityEngine;
 using Game.UI.Views;
+using Game.Core.Systems;
 
 namespace Game.Controller
 {
@@ -17,6 +17,18 @@ namespace Game.Controller
             }
         
             base.Enter();
+            
+            if (!app.model.hasSeenTutorial)
+            {
+                StartTutorial();
+            }
+        }
+        
+        private void StartTutorial()
+        {
+            app.model.startTutorial = true;
+            app.model.SetLevel(1);
+            app.Go<GameplayState>();
         }
     }
 }
