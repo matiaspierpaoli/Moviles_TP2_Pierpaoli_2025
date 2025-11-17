@@ -5942,10 +5942,12 @@ MonoBehaviour:
   logView: {fileID: 85316593}
   levelProfile: {fileID: 11400000, guid: 04f599d2d949a4c43bc96c20bf64f7da, type: 2}
   backgroundImage: {fileID: 1158447342}
-  rollSensitivity: 45
-  pitchSensitivity: 45
+  rollSensitivityAndroid: 45
+  pitchSensitivityAndroid: 45
   smoothing: 0.1
   deadzone: 0.05
+  boardMoveSpeed: 4
+  boardReturnSpeed: 6
 --- !u!114 &1003752387
 MonoBehaviour:
   m_ObjectHideFlags: 0

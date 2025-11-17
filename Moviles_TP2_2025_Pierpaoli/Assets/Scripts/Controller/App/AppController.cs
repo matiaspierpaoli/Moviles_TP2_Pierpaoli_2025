@@ -25,11 +25,15 @@ namespace Game.Controller
         
         ITransitionStrategy transition;
         
-        [Header("Opciones de Input")]
-        public float rollSensitivity = 45f;
-        public float pitchSensitivity = 45f;
+        [Header("Opciones de Input - Android")]
+        public float rollSensitivityAndroid = 45f;
+        public float pitchSensitivityAndroid = 45f;
         public float smoothing = 0.1f;
-        public float deadzone = 0.05f;
+        public float deadzone = 0.05f; 
+        
+        [Header("Opciones de Input - Editor")]
+        public float boardMoveSpeed = 2f;
+        public float boardReturnSpeed = 3f;
         
         public SmartInput smartInput       { get; private set; }
         public IInputStrategy inputStrategy { get; private set; }
@@ -45,13 +49,13 @@ namespace Game.Controller
             backgroundImage.enabled = false;
 
 #if UNITY_ANDROID && !UNITY_EDITOR
-            smartInput = new SmartInput(smoothing, deadzone, rollSensitivity, pitchSensitivity);
+            smartInput = new SmartInput(smoothing, deadzone, rollSensitivityAndroid, pitchSensitivityAndroid);
             inputStrategy = smartInput;
             haptics       = new AndroidHaptics();
             logs          = new AndroidLogService();
             google        = new AndroidGpgsService();
 #else
-            inputStrategy = new EditorInput();
+            inputStrategy = new EditorInput(boardMoveSpeed, boardReturnSpeed);
             haptics       = new NoopHaptics();
             logs          = new NoopLogService();
             google        = new DummyGpgsService();
