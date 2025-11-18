@@ -12,6 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5364d8539c67f342a2d294fcddae6d7, type: 3}
   m_Name: AppModel
   m_EditorClassIdentifier: 
-  currentLevel: 1
-  maxUnlocked: 1
-  coins: 0
+  maxLevels: 5
+  currentLevel: 2
+  maxUnlockedLevel: 3
+  coins: 5
+  hiddenLevelUnlocked: 1
+  hasSeenTutorial: 1
+  hasUnlockedFirstOpen: 0
+  selectedBallMaterialId: 1
+  ownedBallMaterialIds:
+  - default
+  - 1

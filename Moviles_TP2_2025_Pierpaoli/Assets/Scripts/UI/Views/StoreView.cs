@@ -12,7 +12,6 @@ namespace Game.UI.Views
         [Header("UI References")] public TextMeshProUGUI totalCoinsText;
         public Button buyHiddenLevelButton;
         public TextMeshProUGUI buyHiddenLevelButtonText;
-        public TextMeshProUGUI buyButtonText;
 
         public List<ShopItemSlot> shopSlots;
 
@@ -20,21 +19,21 @@ namespace Game.UI.Views
         {
             totalCoinsText.text = totalCoins.ToString();
         
-            // if (isHiddenLevelUnlocked)
-            // {
-            //     buyButtonText.text = "Comprado";
-            //     buyHiddenLevelButton.interactable = false;
-            // }
-            // else if (totalCoins >= hiddenLevelPrice)
-            // {
-            //     buyButtonText.text = $"Comprar Nivel ({hiddenLevelPrice})";
-            //     buyHiddenLevelButton.interactable = true;
-            // }
-            // else
-            // {
-            //     buyButtonText.text = $"Insuficiente ({hiddenLevelPrice})";
-            //     buyHiddenLevelButton.interactable = false;
-            // }
+            if (isHiddenLevelUnlocked)
+            {
+                buyHiddenLevelButtonText.text = "Bought";
+                buyHiddenLevelButton.interactable = false;
+            }
+            else if (totalCoins >= hiddenLevelPrice)
+            {
+                buyHiddenLevelButtonText.text = $"Buy Secret Level: ({hiddenLevelPrice})";
+                buyHiddenLevelButton.interactable = true;
+            }
+            else
+            {
+                buyHiddenLevelButtonText.text = $"Unsufficient ({hiddenLevelPrice})";
+                buyHiddenLevelButton.interactable = false;
+            }
         }
 
         public void SetupMaterialButtons(

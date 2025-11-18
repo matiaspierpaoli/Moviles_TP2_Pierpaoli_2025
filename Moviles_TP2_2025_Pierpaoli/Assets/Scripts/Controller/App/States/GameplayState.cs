@@ -192,7 +192,7 @@ namespace Game.Controller
                 
                 int nextLevel = model.currentLevel + 1;
                 
-                if (nextLevel <= model.maxLevels && nextLevel > model.maxUnlockedLevel)
+                if (nextLevel <= model.maxLevels - 1 && nextLevel > model.maxUnlockedLevel)
                 {
                     model.maxUnlockedLevel = nextLevel;
                     SaveSystem.Save(model);

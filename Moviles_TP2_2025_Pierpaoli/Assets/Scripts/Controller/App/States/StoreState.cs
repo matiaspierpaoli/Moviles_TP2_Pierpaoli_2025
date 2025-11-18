@@ -31,8 +31,8 @@ namespace Game.Controller
             ballMaterialCfg = AssetLoader.LoadBallMaterialConfig();
             econ = new Economy(model, econCfg, ballMaterialCfg);
 
-            // storeView.buyHiddenLevelButton.onClick.RemoveAllListeners();
-            // storeView.buyHiddenLevelButton.onClick.AddListener(OnBuyHiddenLevelClicked);
+            storeView.buyHiddenLevelButton.onClick.RemoveAllListeners();
+            storeView.buyHiddenLevelButton.onClick.AddListener(OnBuyHiddenLevelClicked);
 
             if (app.backgroundImage != null)
             {
@@ -46,7 +46,7 @@ namespace Game.Controller
         {
             if (storeView != null)
             {
-                //storeView.buyHiddenLevelButton.onClick.RemoveListener(OnBuyHiddenLevelClicked);
+                storeView.buyHiddenLevelButton.onClick.RemoveListener(OnBuyHiddenLevelClicked);
             }
             base.Exit();
         }

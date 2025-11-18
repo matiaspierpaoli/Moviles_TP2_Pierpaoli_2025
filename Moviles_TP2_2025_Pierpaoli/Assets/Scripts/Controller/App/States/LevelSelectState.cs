@@ -29,8 +29,13 @@ namespace Game.Controller
 
             foreach (var lb in levelView.levelButtons)
             {
-                bool isUnlocked = (lb.levelIndex <= model.maxUnlockedLevel);
-            
+                bool isUnlocked = false;
+
+                if (lb.levelIndex == model.maxLevels)
+                    isUnlocked = model.hiddenLevelUnlocked;
+                else
+                    isUnlocked = (lb.levelIndex <= model.maxUnlockedLevel);
+                
                 lb.button.interactable = isUnlocked;
                 if (lb.lockIcon != null) lb.lockIcon.SetActive(!isUnlocked);
             
