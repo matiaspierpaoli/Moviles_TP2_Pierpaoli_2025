@@ -14,6 +14,7 @@ namespace Game.Core.Systems
         public static void Save(AppModel m){
             PlayerPrefs.SetInt($"{K}_coins", m.coins);
             PlayerPrefs.SetInt($"{K}_hidden", m.hiddenLevelUnlocked ? 1 : 0);
+            PlayerPrefs.SetInt($"{K}_lvl", m.maxUnlockedLevel);
             PlayerPrefs.SetString($"{K}_selectedMat", m.selectedBallMaterialId);
             MaterialIdsWrapper wrapper = new MaterialIdsWrapper { ids = m.ownedBallMaterialIds };
             string json = JsonUtility.ToJson(wrapper);
@@ -26,6 +27,7 @@ namespace Game.Core.Systems
         public static void Load(AppModel m){
             m.coins       = PlayerPrefs.GetInt($"{K}_coins",0);
             m.hiddenLevelUnlocked = PlayerPrefs.GetInt($"{K}_hidden", 0) == 1;
+            m.maxUnlockedLevel = PlayerPrefs.GetInt($"{K}_lvl", 1);
             m.selectedBallMaterialId = PlayerPrefs.GetString($"{K}_selectedMat", "default"); 
             string json = PlayerPrefs.GetString($"{K}_ownedMats", "");
             if (!string.IsNullOrEmpty(json)) {
@@ -51,6 +53,7 @@ namespace Game.Core.Systems
             PlayerPrefs.DeleteKey($"{K}_lvl");
             PlayerPrefs.DeleteKey($"{K}_coins");
             PlayerPrefs.DeleteKey($"{K}_hidden");
+            PlayerPrefs.DeleteKey($"{K}_lvl");
             PlayerPrefs.DeleteKey($"{K}_selectedMat");
             PlayerPrefs.DeleteKey($"{K}_ownedMats");
             PlayerPrefs.DeleteKey($"{K}_tutorial");

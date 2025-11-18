@@ -104,10 +104,13 @@ namespace Game.Controller
         public void Ui_ToStore()  => Go<StoreState>();
         public void Ui_ToSelect() => Go<LevelSelectState>();
         public void Ui_ToLogs() => Go<LogViewState>();
-        public void Ui_Play1(){ model.SetLevel(2); SceneTransit.SetNext(typeof(GameplayState), levelProfile); Go<LoadingState>(); }
-        public void Ui_Play2(){ model.SetLevel(3); SceneTransit.SetNext(typeof(GameplayState), levelProfile); Go<LoadingState>(); }
-        public void Ui_Play3(){ model.SetLevel(4); SceneTransit.SetNext(typeof(GameplayState), levelProfile); Go<LoadingState>(); }
-        public void Ui_Play4(){ model.SetLevel(5); SceneTransit.SetNext(typeof(GameplayState), levelProfile); Go<LoadingState>(); }
+        
+        public void Ui_PlayLevel(int level)
+        {
+            model.SetLevel(level);
+            SceneTransit.SetNext(typeof(GameplayState), levelProfile);
+            Go<LoadingState>();
+        }
         public void Ui_ResetCalibration()
         {
             smartInput?.CalibrateToCurrent();

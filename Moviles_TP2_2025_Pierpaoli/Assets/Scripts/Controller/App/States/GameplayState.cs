@@ -30,6 +30,8 @@ namespace Game.Controller
         {
             base.Enter();
             
+            SaveSystem.Load(model);
+            
             gameplayUI = view as GameplayView;
             sessionCoins = 0;
             gameplayUI?.UpdateCoinCount(sessionCoins);
@@ -78,8 +80,6 @@ namespace Game.Controller
 
             if (model.startTutorial)
             {
-                
-            
                 gameplayUI.readyPanel.gameObject.SetActive(false);
                 
                 var tutorialTriggers = currentBoardInstance.GetComponentsInChildren<TutorialStepTrigger>(true);
@@ -167,6 +167,13 @@ namespace Game.Controller
             {
                 model.startTutorial = false;
                 
+                if (model.maxUnlockedLevel < 2)
+                {
+                    model.maxUnlockedLevel = 2;
+                }
+                SaveSystem.Save(model);
+                
+#if UNITY_ANDROID && !UNITY_EDITOR
                 if (app.google.Ready)
                 {
                     app.google.Unlock(GPGSIds.achievement_tutorial_completed);
@@ -175,13 +182,22 @@ namespace Game.Controller
                 {
                     Debug.Log("Google is not ready to unlock/increment in gameplay state OnWin()");
                 }
-                
+#endif
                 app.Go<MainMenuState>();
             }
             else
             {
                 econ.AddSessionCoins(sessionCoins);
                 model.lastSessionCoins = sessionCoins;
+                
+                int nextLevel = model.currentLevel + 1;
+                
+                if (nextLevel <= model.maxLevels && nextLevel > model.maxUnlockedLevel)
+                {
+                    model.maxUnlockedLevel = nextLevel;
+                    SaveSystem.Save(model);
+                }
+                
                 app.Go<VictoryState>();
             }
         }
