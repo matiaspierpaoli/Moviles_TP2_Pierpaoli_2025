@@ -71,6 +71,13 @@ namespace Game.Controller
 
             if (success)
             {
+#if UNITY_ANDROID && !UNITY_EDITOR
+                if (app.google != null)
+                {
+                    app.google.Unlock(GPGSIds.achievement_last_dance);
+                    Debug.Log("Achievement unlocked: Last dance ");
+                }
+#endif
                 app.haptics.PlaySimpleVibration();
             }
 
