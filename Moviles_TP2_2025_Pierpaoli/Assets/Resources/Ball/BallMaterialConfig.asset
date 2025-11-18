@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BallMaterialConfig
   m_EditorClassIdentifier: 
   materialItems:
-  - id: 1
+  - id: Default
     displayName: Default
     material: {fileID: 2100000, guid: 80d93886531939d499d974416375ca01, type: 2}
     icon: {fileID: 21300000, guid: 4d5adbed327caa54f99bb4b5eb9c51d5, type: 3}

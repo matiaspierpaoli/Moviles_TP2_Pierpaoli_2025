@@ -28,20 +28,20 @@ namespace Game.Core.Systems
             m.coins       = PlayerPrefs.GetInt($"{K}_coins",0);
             m.hiddenLevelUnlocked = PlayerPrefs.GetInt($"{K}_hidden", 0) == 1;
             m.maxUnlockedLevel = PlayerPrefs.GetInt($"{K}_lvl", 1);
-            m.selectedBallMaterialId = PlayerPrefs.GetString($"{K}_selectedMat", "default"); 
+            m.selectedBallMaterialId = PlayerPrefs.GetString($"{K}_selectedMat", "Default"); 
             string json = PlayerPrefs.GetString($"{K}_ownedMats", "");
             if (!string.IsNullOrEmpty(json)) {
                 MaterialIdsWrapper wrapper = JsonUtility.FromJson<MaterialIdsWrapper>(json);
                 m.ownedBallMaterialIds = wrapper.ids;
             } else {
                 m.ownedBallMaterialIds.Clear();
-                m.ownedBallMaterialIds.Add("default");
+                m.ownedBallMaterialIds.Add("Default");
             }
             // ---------------------
 
-            if (!m.ownedBallMaterialIds.Contains("default")) {
-                m.ownedBallMaterialIds.Add("default");
-                if (string.IsNullOrEmpty(m.selectedBallMaterialId)) m.selectedBallMaterialId = "default";
+            if (!m.ownedBallMaterialIds.Contains("Default")) {
+                m.ownedBallMaterialIds.Add("Default");
+                if (string.IsNullOrEmpty(m.selectedBallMaterialId)) m.selectedBallMaterialId = "Default";
             }
             
             m.hasSeenTutorial = PlayerPrefs.GetInt($"{K}_tutorial", 0) == 1;

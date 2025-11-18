@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxLevels: 5
   currentLevel: 2
-  maxUnlockedLevel: 3
-  coins: 5
-  hiddenLevelUnlocked: 1
+  maxUnlockedLevel: 2
+  coins: 2
+  hiddenLevelUnlocked: 0
   hasSeenTutorial: 1
   hasUnlockedFirstOpen: 0
-  selectedBallMaterialId: 1
+  selectedBallMaterialId: Default
   ownedBallMaterialIds:
-  - default
-  - 1
+  - Default
+  - 2
