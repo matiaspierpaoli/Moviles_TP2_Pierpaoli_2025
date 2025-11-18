@@ -142,7 +142,7 @@ namespace Game.Controller
 #if UNITY_ANDROID && !UNITY_EDITOR
                 if (app.google != null) 
                 {
-                    app.google.Unlock(GPGSIds.achievement_indecisive); 
+                    app.google.Increment(GPGSIds.achievement_indecisive, 10);
                     Debug.Log("¡Achievement unlocked: Indecisive");
                 }
 #endif
