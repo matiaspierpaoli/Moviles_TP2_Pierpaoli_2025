@@ -24,6 +24,8 @@ namespace Game.Controller
         private CoinSpawner activeSpawner;
         
         private TutorialSequencer tutorial;
+        
+        private int calibrationClicks = 0;
         public GameplayState(AppController a, ScreenView v, AppModel m) : base(a, v){ model=m; }
 
         public override void Enter()
@@ -31,6 +33,14 @@ namespace Game.Controller
             base.Enter();
             
             SaveSystem.Load(model);
+            
+            calibrationClicks = 0;
+            
+            if (gameplayUI != null && gameplayUI.calibrateButton != null)
+            {
+                gameplayUI.calibrateButton.onClick.RemoveAllListeners();
+                gameplayUI.calibrateButton.onClick.AddListener(OnCalibrationClicked);
+            }
             
             gameplayUI = view as GameplayView;
             sessionCoins = 0;
@@ -119,6 +129,24 @@ namespace Game.Controller
             StartGameplay();
         }
         
+        private void OnCalibrationClicked()
+        {
+            app.Ui_ResetCalibration();
+        
+            calibrationClicks++;
+        
+            if (calibrationClicks == 10)
+            {
+#if UNITY_ANDROID && !UNITY_EDITOR
+                if (app.google != null) 
+                {
+                    app.google.Unlock(GPGSIds.achievement_indecisive); 
+                    Debug.Log("¡Logro desbloqueado: Calibrador Compulsivo!");
+                }
+#endif
+            }
+        }
+        
         public override void Tick()
         {
             if (tutorial != null)
@@ -139,6 +167,11 @@ namespace Game.Controller
             if (currentBoardInstance != null)
             {
                 Object.Destroy(currentBoardInstance);
+            }
+            
+            if (gameplayUI != null && gameplayUI.calibrateButton != null)
+            {
+                gameplayUI.calibrateButton.onClick.RemoveListener(OnCalibrationClicked);
             }
             
             AssetLoader.UnloadLevel();

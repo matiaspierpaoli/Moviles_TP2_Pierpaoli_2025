@@ -24,7 +24,14 @@
 
 public static class GPGSIds
 {
-        public const string achievement_tutorial_completed = "CgkIvvChv74LEAIQAQ"; // <GPGSID>
+        public const string achievement_last_dance = "CgkIvvChv74LEAIQCA"; // <GPGSID>
+        public const string achievement_novice = "CgkIvvChv74LEAIQAQ"; // <GPGSID>
+        public const string achievement_aprentice = "CgkIvvChv74LEAIQAg"; // <GPGSID>
+        public const string achievement_indecisive = "CgkIvvChv74LEAIQBw"; // <GPGSID>
+        public const string achievement_legend = "CgkIvvChv74LEAIQBQ"; // <GPGSID>
+        public const string achievement_collector = "CgkIvvChv74LEAIQBg"; // <GPGSID>
+        public const string achievement_master = "CgkIvvChv74LEAIQBA"; // <GPGSID>
+        public const string achievement_adventurer = "CgkIvvChv74LEAIQAw"; // <GPGSID>
 
 }
 
