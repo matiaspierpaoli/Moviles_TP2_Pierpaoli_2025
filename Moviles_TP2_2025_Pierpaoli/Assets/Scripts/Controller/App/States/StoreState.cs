@@ -60,7 +60,20 @@ namespace Game.Controller
             else
             {
                 bool success = econ.TryBuyMaterial(materialId);
-                if (success) { app.haptics.PlaySimpleVibration(); }
+                if (success)
+                {
+#if UNITY_ANDROID && !UNITY_EDITOR
+                    if (model.ownedBallMaterialIds.Count >= ballMaterialCfg.materialItems.Count)
+                    {
+                        if (app.google != null)
+                        {
+                            app.google.Increment(GPGSIds.achievement_collector, 4);
+                            Debug.Log("Achievement unlocked: collector");
+                        }
+                    }
+#endif
+                    app.haptics.PlaySimpleVibration();
+                }
             }
             RefreshUI();
         }
