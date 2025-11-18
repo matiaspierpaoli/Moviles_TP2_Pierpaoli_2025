@@ -19,6 +19,7 @@ namespace Game.Core.Systems
             string json = JsonUtility.ToJson(wrapper);
             PlayerPrefs.SetString($"{K}_ownedMats", json);
             PlayerPrefs.SetInt($"{K}_tutorial", m.hasSeenTutorial ? 1 : 0);
+            PlayerPrefs.SetInt($"{K}_firstOpen", m.hasUnlockedFirstOpen ? 1 : 0);
             // ---------------------
             PlayerPrefs.Save();
         }
@@ -42,6 +43,7 @@ namespace Game.Core.Systems
             }
             
             m.hasSeenTutorial = PlayerPrefs.GetInt($"{K}_tutorial", 0) == 1;
+            m.hasUnlockedFirstOpen = PlayerPrefs.GetInt($"{K}_firstOpen", 0) == 1;
         }
         
         public static void ClearSave()
@@ -52,6 +54,7 @@ namespace Game.Core.Systems
             PlayerPrefs.DeleteKey($"{K}_selectedMat");
             PlayerPrefs.DeleteKey($"{K}_ownedMats");
             PlayerPrefs.DeleteKey($"{K}_tutorial");
+            PlayerPrefs.DeleteKey($"{K}_firstOpen");
             PlayerPrefs.Save();
         }
     }

@@ -166,6 +166,16 @@ namespace Game.Controller
             if (app.model.startTutorial)
             {
                 model.startTutorial = false;
+                
+                if (app.google.Ready)
+                {
+                    app.google.Unlock(GPGSIds.achievement_tutorial_completed);
+                }
+                else
+                {
+                    Debug.Log("Google is not ready to unlock/increment in gameplay state OnWin()");
+                }
+                
                 app.Go<MainMenuState>();
             }
             else

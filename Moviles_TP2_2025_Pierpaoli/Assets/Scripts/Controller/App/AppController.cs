@@ -47,6 +47,7 @@ namespace Game.Controller
             transition = new FadeTransition(0.2f);
             
             backgroundImage.enabled = false;
+            SaveSystem.Load(model);
 
 #if UNITY_ANDROID && !UNITY_EDITOR
             smartInput = new SmartInput(smoothing, deadzone, rollSensitivityAndroid, pitchSensitivityAndroid);
@@ -54,17 +55,16 @@ namespace Game.Controller
             haptics       = new AndroidHaptics();
             logs          = new AndroidLogService();
             google        = new AndroidGpgsService();
+            google.Init();
+            Services.Google = google;
+            
 #else
             inputStrategy = new EditorInput(boardMoveSpeed, boardReturnSpeed);
             haptics       = new NoopHaptics();
             logs          = new NoopLogService();
             google        = new DummyGpgsService();
 #endif
-            // google.Init();
-            // google.Authenticate(s => Debug.Log("GPGS: " + s));
-            // Services.Google = google;
 
-            SaveSystem.Load(model);
             
             fsm.Register(new MainMenuState(this, mainMenuView));
             fsm.Register(new LevelSelectState(this, levelSelectView, model));

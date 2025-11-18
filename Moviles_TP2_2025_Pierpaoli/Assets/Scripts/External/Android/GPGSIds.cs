@@ -24,7 +24,7 @@
 
 public static class GPGSIds
 {
-        public const string achievement_first_open = "CgkIvvChv74LEAIQAQ"; // <GPGSID>
+        public const string achievement_tutorial_completed = "CgkIvvChv74LEAIQAQ"; // <GPGSID>
 
 }
 

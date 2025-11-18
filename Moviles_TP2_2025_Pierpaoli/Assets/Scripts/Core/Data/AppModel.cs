@@ -10,6 +10,7 @@ namespace Game.Core.Data
         public int coins = 0;
         public bool hiddenLevelUnlocked = false;
         public bool hasSeenTutorial = false;
+        public bool hasUnlockedFirstOpen = false;
 
         [System.NonSerialized]
         public int lastSessionCoins;
@@ -35,7 +36,7 @@ namespace Game.Core.Data
             currentLevel = 1;
             coins = 0;
             hiddenLevelUnlocked = false;
-            hasSeenTutorial = false;
+            hasUnlockedFirstOpen = false;
             lastSessionCoins = 0;
             selectedBallMaterialId = "1";
             ownedBallMaterialIds.Clear();
