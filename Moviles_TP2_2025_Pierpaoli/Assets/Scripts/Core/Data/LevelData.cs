@@ -13,5 +13,9 @@ namespace Game.Core.Data
         public LevelParameters parameters;
         public TextAsset layoutJson;
         public Sprite backgroundSprite;
+        
+        [Header("Google Play")]
+        [Tooltip("Copy GPGSids exact achievement id for completition")]
+        public string completionAchievementId;
     }
 }

@@ -19,6 +19,8 @@ namespace Game.Controller
 
         GameObject currentBoardInstance;
 
+        private LevelData currentLevelData;
+        
         private GameplayView gameplayUI;
         private int sessionCoins;
         private CoinSpawner activeSpawner;
@@ -47,19 +49,19 @@ namespace Game.Controller
             gameplayUI?.UpdateCoinCount(sessionCoins);
             gameplayUI?.HideTutorial();
 
-            var ld = AssetLoader.LoadLevel(model.currentLevel);
+            currentLevelData = AssetLoader.LoadLevel(model.currentLevel);
             var ec = AssetLoader.LoadEconomy();
             
-            if (app.backgroundImage != null && ld.backgroundSprite != null)
+            if (app.backgroundImage != null && currentLevelData.backgroundSprite != null)
             {
-                app.backgroundImage.sprite = ld.backgroundSprite;
+                app.backgroundImage.sprite = currentLevelData.backgroundSprite;
                 app.backgroundImage.enabled = true;
             }
             
             ballMaterialCfg = AssetLoader.LoadBallMaterialConfig();
             econ  = new Economy(model, ec, ballMaterialCfg);
 
-            var boardPrefab = ld.boardPrefab;
+            var boardPrefab = currentLevelData.boardPrefab;
 
             BoardView boardView = null;
             if (boardPrefab != null)
@@ -85,8 +87,8 @@ namespace Game.Controller
                 activeSpawner.OnCoinSpawned = (coin) => coin.OnCollected = HandleCoinCollected;
             }
 
-            diff = new DifficultyService(ld.parameters);
-            controller = new LevelController(new LevelModel(ld), boardView, app.inputStrategy, app.haptics, diff);
+            diff = new DifficultyService(currentLevelData.parameters);
+            controller = new LevelController(new LevelModel(currentLevelData), boardView, app.inputStrategy, app.haptics, diff);
 
             if (model.startTutorial)
             {
@@ -141,7 +143,7 @@ namespace Game.Controller
                 if (app.google != null) 
                 {
                     app.google.Unlock(GPGSIds.achievement_indecisive); 
-                    Debug.Log("¡Logro desbloqueado: Calibrador Compulsivo!");
+                    Debug.Log("¡Achievement unlocked: Indecisive");
                 }
 #endif
             }
@@ -229,6 +231,17 @@ namespace Game.Controller
                 {
                     model.maxUnlockedLevel = nextLevel;
                     SaveSystem.Save(model);
+                }
+                
+                if (!string.IsNullOrEmpty(currentLevelData.completionAchievementId))
+                {
+#if UNITY_ANDROID && !UNITY_EDITOR
+                    if (app.google != null)
+                    {
+                        app.google.Unlock(currentLevelData.completionAchievementId);
+                        Debug.Log("Achievement unlocked for level: " + model.currentLevel);
+                    }
+#endif
                 }
                 
                 app.Go<VictoryState>();
