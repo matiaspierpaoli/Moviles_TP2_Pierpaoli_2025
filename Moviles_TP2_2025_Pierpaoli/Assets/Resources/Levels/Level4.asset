@@ -17,5 +17,5 @@ MonoBehaviour:
   boardPrefab: {fileID: 9004375040771588070, guid: d558ec9be9cdc9943b5a46a7154078ba, type: 3}
   parameters: {fileID: 11400000, guid: 6c617c0450065cb4dbffd5441dfef048, type: 2}
   layoutJson: {fileID: 0}
-  backgroundSprite: {fileID: 21300000, guid: b07bc68d63f21de41882990832c5e6f9, type: 3}
+  backgroundSprite: {fileID: 21300000, guid: c2c95fb83b84f8149810eb29ca5447c0, type: 3}
   completionAchievementId: CgkIvvChv74LEAIQBA
