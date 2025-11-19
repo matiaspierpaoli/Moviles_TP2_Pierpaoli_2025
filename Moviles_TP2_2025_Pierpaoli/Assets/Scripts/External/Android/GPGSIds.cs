@@ -24,6 +24,7 @@
 
 public static class GPGSIds
 {
+        public const string leaderboard_millioners = "CgkIvvChv74LEAIQCQ"; // <GPGSID>
         public const string achievement_last_dance = "CgkIvvChv74LEAIQCA"; // <GPGSID>
         public const string achievement_novice = "CgkIvvChv74LEAIQAQ"; // <GPGSID>
         public const string achievement_aprentice = "CgkIvvChv74LEAIQAg"; // <GPGSID>

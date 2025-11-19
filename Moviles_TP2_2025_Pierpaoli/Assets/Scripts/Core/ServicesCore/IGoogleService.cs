@@ -8,5 +8,7 @@ namespace Game.Core.ServicesCore
         void Unlock(string id);
         void ShowUI();
         void LogEvent(string name);
+        void PostScore(string leaderboardId, long score);
+        void ShowLeaderboardUI();
     }
 }

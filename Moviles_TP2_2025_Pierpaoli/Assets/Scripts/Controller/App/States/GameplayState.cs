@@ -34,8 +34,6 @@ namespace Game.Controller
         {
             base.Enter();
             
-            SaveSystem.Load(model);
-            
             calibrationClicks = 0;
             
             if (gameplayUI != null && gameplayUI.calibrateButton != null)
@@ -90,7 +88,7 @@ namespace Game.Controller
             diff = new DifficultyService(currentLevelData.parameters);
             controller = new LevelController(new LevelModel(currentLevelData), boardView, app.inputStrategy, app.haptics, diff);
 
-            if (model.startTutorial)
+            if (model.tutorialStarted && !model.hasSeenTutorial)
             {
                 gameplayUI.readyPanel.gameObject.SetActive(false);
                 
@@ -120,6 +118,7 @@ namespace Game.Controller
             tutorial.OnTutorialComplete = () => {
                 tutorial = null;
                 model.hasSeenTutorial = true; 
+                model.tutorialStarted = false;
                 SaveSystem.Save(model);
                 app.Go<MainMenuState>();
             };
@@ -198,10 +197,8 @@ namespace Game.Controller
         
         public void OnWin()
         {
-            if (app.model.startTutorial)
+            if (app.model.tutorialStarted)
             {
-                model.startTutorial = false;
-                
                 if (model.maxUnlockedLevel < 2)
                 {
                     model.maxUnlockedLevel = 2;
@@ -211,7 +208,7 @@ namespace Game.Controller
 #if UNITY_ANDROID && !UNITY_EDITOR
                 if (app.google.Ready)
                 {
-                    app.google.Unlock(GPGSIds.achievement_tutorial_completed);
+                    app.google.Unlock(GPGSIds.achievement_novice);
                 }
                 else
                 {
@@ -223,6 +220,13 @@ namespace Game.Controller
             else
             {
                 econ.AddSessionCoins(sessionCoins);
+#if UNITY_ANDROID && !UNITY_EDITOR
+                if (app.google != null)
+                {
+                    app.google.PostScore(GPGSIds.leaderboard_millioners, model.totalCoinsCollected);
+                    Debug.Log("Added " + model.totalCoinsCollected + " to leaderboard");
+                }
+#endif
                 model.lastSessionCoins = sessionCoins;
                 
                 int nextLevel = model.currentLevel + 1;

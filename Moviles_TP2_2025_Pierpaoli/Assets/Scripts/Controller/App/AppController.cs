@@ -62,11 +62,10 @@ namespace Game.Controller
             inputStrategy = new EditorInput(boardMoveSpeed, boardReturnSpeed);
             haptics       = new NoopHaptics();
             logs          = new NoopLogService();
-            google        = new DummyGpgsService();
 #endif
 
             
-            fsm.Register(new MainMenuState(this, mainMenuView));
+            fsm.Register(new MainMenuState(this, mainMenuView, model));
             fsm.Register(new LevelSelectState(this, levelSelectView, model));
             fsm.Register(new GameplayState(this, gameplayView, model));
             fsm.Register(new VictoryState(this, victoryView, model));
@@ -118,7 +117,8 @@ namespace Game.Controller
         
         public void Ui_StartTutorial()
         {
-            model.startTutorial = true;
+            model.tutorialStarted = true;
+            model.hasSeenTutorial = false;
             model.SetLevel(1);
         
             SceneTransit.SetNext(typeof(GameplayState), levelProfile);
@@ -135,6 +135,14 @@ namespace Game.Controller
             SaveSystem.ClearSave();
             model.ResetToDefaults();
             Go<MainMenuState>();
+        }
+        
+        public void Ui_ShowLeaderboard()
+        {
+            if (google != null)
+            {
+                google.ShowLeaderboardUI();
+            }
         }
         public void Ui_ExitGame(){ Application.Quit(); }
     }

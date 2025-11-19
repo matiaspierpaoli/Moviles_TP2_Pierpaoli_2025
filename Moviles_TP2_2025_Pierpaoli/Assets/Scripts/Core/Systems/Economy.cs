@@ -70,6 +70,7 @@ namespace Game.Core.Systems
 
             int amount = collectedCount * cfg.rewardPerCoin; 
             model.coins += amount;
+            model.totalCoinsCollected += amount;
             SaveSystem.Save(model);
         }
         

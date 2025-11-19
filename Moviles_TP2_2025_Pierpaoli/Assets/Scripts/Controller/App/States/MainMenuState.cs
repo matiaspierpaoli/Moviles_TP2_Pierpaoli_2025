@@ -1,12 +1,15 @@
 using Game.UI.Views;
+using Game.Core.Data;
 using Game.Core.Systems;
 
 namespace Game.Controller
 {
     public class MainMenuState : BaseState
     {
-        public MainMenuState(AppController a, ScreenView v) : base(a, v)
+        readonly AppModel model;
+        public MainMenuState(AppController a, ScreenView v, AppModel m) : base(a, v)
         {
+            model = m;
         }
         
         public override void Enter()
@@ -18,7 +21,7 @@ namespace Game.Controller
         
             base.Enter();
             
-            if (!app.model.hasSeenTutorial)
+            if (!app.model.hasSeenTutorial && !app.model.tutorialStarted)
             {
                 StartTutorial();
             }
@@ -26,7 +29,7 @@ namespace Game.Controller
         
         private void StartTutorial()
         {
-            app.model.startTutorial = true;
+            app.model.tutorialStarted = true;
             app.model.SetLevel(1);
             app.Go<GameplayState>();
         }

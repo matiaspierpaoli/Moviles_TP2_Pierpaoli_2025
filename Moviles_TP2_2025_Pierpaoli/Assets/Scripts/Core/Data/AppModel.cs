@@ -13,11 +13,13 @@ namespace Game.Core.Data
         public bool hiddenLevelUnlocked = false;
         public bool hasSeenTutorial = false;
         public bool hasUnlockedFirstOpen = false;
+        
+        public int totalCoinsCollected = 0;
 
         [System.NonSerialized]
         public int lastSessionCoins;
         [System.NonSerialized]
-        public bool startTutorial = false;
+        public bool tutorialStarted = false;
         
         public string selectedBallMaterialId; 
         public List<string> ownedBallMaterialIds = new List<string>();
@@ -44,6 +46,7 @@ namespace Game.Core.Data
             selectedBallMaterialId = "1";
             ownedBallMaterialIds.Clear();
             ownedBallMaterialIds.Add("1");
+            totalCoinsCollected = 0;
         }
     }
 }

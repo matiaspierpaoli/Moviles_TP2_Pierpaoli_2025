@@ -95,5 +95,23 @@ namespace Game.External
         }
 
         public void LogEvent(string name) { }
+        public void PostScore(string leaderboardId, long score)
+        {
+#if UNITY_ANDROID && !UNITY_EDITOR
+            if (!ready) return;
+        
+            PlayGamesPlatform.Instance.ReportScore(score, leaderboardId, (bool success) => {
+                if(success) Debug.Log($"GPGS: Score {score} sent to leaderboard.");
+            });
+#endif
+        }
+
+        public void ShowLeaderboardUI()
+        {
+#if UNITY_ANDROID && !UNITY_EDITOR
+            if (!ready) return;
+            PlayGamesPlatform.Instance.ShowLeaderboardUI();
+#endif
+        }
     }
 }
