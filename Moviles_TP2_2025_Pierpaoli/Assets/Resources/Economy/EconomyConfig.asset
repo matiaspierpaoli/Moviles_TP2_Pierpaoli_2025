@@ -12,6 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 588298fa71234929862d66932621c725, type: 3}
   m_Name: EconomyConfig
   m_EditorClassIdentifier: 
-  rewardPerLevel: 25
   rewardPerCoin: 1
-  itemPrice: 50
+  hiddenLevelPrice: 20
