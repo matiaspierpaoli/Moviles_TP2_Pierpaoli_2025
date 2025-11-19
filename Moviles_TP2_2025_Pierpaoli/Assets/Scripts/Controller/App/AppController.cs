@@ -13,7 +13,7 @@ namespace Game.Controller
     public class AppController : MonoBehaviour
     {
         [Header("Model")] public AppModel model;
-        [Header("Views")] public ScreenView mainMenuView, levelSelectView, gameplayView, victoryView, storeView, loadingView, logView;
+        [Header("Views")] public ScreenView mainMenuView, levelSelectView, gameplayView, victoryView, storeView, loadingView, logView, creditsView;
 
         [Header("Loading Profiles")]
         public LoadingProfile levelProfile;
@@ -72,6 +72,7 @@ namespace Game.Controller
             fsm.Register(new StoreState(this, storeView, model));
             fsm.Register(new LoadingState(this, loadingView));
             fsm.Register(new LogViewState(this, logView));
+            fsm.Register(new CreditsState(this, creditsView));
         }
 
         void Start()
@@ -96,6 +97,7 @@ namespace Game.Controller
             storeView?.Hide();
             loadingView?.Hide();
             logView?.Hide();
+            creditsView?.Hide();
         }
 
         // UI hooks
@@ -103,6 +105,7 @@ namespace Game.Controller
         public void Ui_ToStore()  => Go<StoreState>();
         public void Ui_ToSelect() => Go<LevelSelectState>();
         public void Ui_ToLogs() => Go<LogViewState>();
+        public void Ui_ToCredits() => Go<CreditsState>();
         
         public void Ui_PlayLevel(int level)
         {

@@ -8,7 +8,7 @@ namespace Game.UI.Views
     {
         CanvasGroup cg;
 
-        void Awake()
+        public virtual void Awake()
         {
             cg = GetComponent<CanvasGroup>();
         }
