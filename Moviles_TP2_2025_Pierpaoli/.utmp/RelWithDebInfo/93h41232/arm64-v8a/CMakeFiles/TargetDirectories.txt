@@ -1,0 +1,5 @@
+E:/Unity Repos/Moviles_TP2_Pierpaoli_2025/Moviles_TP2_2025_Pierpaoli/.utmp/RelWithDebInfo/93h41232/arm64-v8a/CMakeFiles/edit_cache.dir
+E:/Unity Repos/Moviles_TP2_Pierpaoli_2025/Moviles_TP2_2025_Pierpaoli/.utmp/RelWithDebInfo/93h41232/arm64-v8a/CMakeFiles/rebuild_cache.dir
+E:/Unity Repos/Moviles_TP2_Pierpaoli_2025/Moviles_TP2_2025_Pierpaoli/.utmp/RelWithDebInfo/93h41232/arm64-v8a/GameActivity/CMakeFiles/game.dir
+E:/Unity Repos/Moviles_TP2_Pierpaoli_2025/Moviles_TP2_2025_Pierpaoli/.utmp/RelWithDebInfo/93h41232/arm64-v8a/GameActivity/CMakeFiles/edit_cache.dir
+E:/Unity Repos/Moviles_TP2_Pierpaoli_2025/Moviles_TP2_2025_Pierpaoli/.utmp/RelWithDebInfo/93h41232/arm64-v8a/GameActivity/CMakeFiles/rebuild_cache.dir
